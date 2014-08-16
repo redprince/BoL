@@ -1,4 +1,4 @@
-_G.PRINCEVERSION = 4.70
+_G.PRINCEVERSION = 4.71
 _G.PRINCEUPDATE = true
 
 _G.HiddenObjects_forceDisable = false
