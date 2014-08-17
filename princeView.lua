@@ -1,8 +1,8 @@
-_G.PRINCEVERSION = 4.71
+_G.PRINCEVERSION = 4.72
 _G.PRINCEUPDATE = true
 
 _G.HiddenObjects_forceDisable = false
-_G.Waypoints_forceDisable = false
+_G.Waypoints_forceDisable = true
 _G.CooldownTracker_forceDisable = false
 _G.SideHud_forceDisable = false
 _G.MinimapSS_forceDisable = false
@@ -36,6 +36,9 @@ _G.LasthitHelper_forceDisable = false
     - Save chat in txt files, one file for every new match
     
     Changelog
+    
+    4.72
+    - Hotfix, disables waypoints (causing error spam)
     
     4.71
     - Hotfix to remove a debug string "NO MANA" spammed like no tomorrow
