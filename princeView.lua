@@ -12,7 +12,10 @@ _G.TurretRanges_forceDisable = false
 _G.MinimapTimers_forceDisable = false
 _G.ExpDrawing_forceDisable = false
 _G.LasthitHelper_forceDisable = false
+_G.MovementLimiter_forceDisable = false
+if not FREE_USER then
 _G.MovementLimiter_forceDisable = true
+end
 
 --[[
     Features
