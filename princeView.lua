@@ -1,9 +1,9 @@
-_G.PRINCEVERSION = 5.30
+_G.PRINCEVERSION = 5.31
 _G.PRINCEUPDATE = true
 
 _G.HiddenObjects_forceDisable = false
 _G.Waypoints_forceDisable = false
-_G.CooldownTracker_forceDisable = false
+_G.CooldownTracker_forceDisable = true
 _G.SideHud_forceDisable = false
 _G.MinimapSS_forceDisable = false
 _G.CloneRevealer_forceDisable = false
@@ -12,7 +12,7 @@ _G.TurretRanges_forceDisable = false
 _G.MinimapTimers_forceDisable = false
 _G.ExpDrawing_forceDisable = false
 _G.LasthitHelper_forceDisable = false
-_G.MovementLimiter_forceDisable = false
+_G.MovementLimiter_forceDisable = true
 
 --[[
     Features
@@ -37,6 +37,10 @@ _G.MovementLimiter_forceDisable = false
     - Save chat in txt files, one file for every new match
     
     Changelog
+    
+    5.31
+    - Disabled overhead cooldown UI for 4,15 patch until new release fixes them
+    - Probable tempfix for freeusers spamming errors
     
     5.30
     - Fixed a case of ward detection from OnProcessSpell (ward networkid was wrongly set)
