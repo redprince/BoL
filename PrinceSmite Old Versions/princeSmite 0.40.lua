@@ -117,7 +117,7 @@ function OnLoad()
     end
     
     -- BoL Tracker callback
-    BoLTracker("princeSmite", 7)
+    BoLTracker("PrinceView", 7)
     
     -- Loaded message
     PrintChat("<font color=\"#F244E4\">[PrinceSmite ".._G.PRINCESMITEVERSION.."] Script loaded</font>")
