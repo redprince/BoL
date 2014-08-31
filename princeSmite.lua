@@ -213,7 +213,7 @@ function OnTick()
                     end
                 -- check for spells
                 elseif spellDamage(mob) > 0
-                and GetDistance(mob) < math.max(235,spellRange + hitboxes[mob.charName])
+                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health <= smiteDamage(mob) + spellDamage(mob) 
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
