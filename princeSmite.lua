@@ -120,7 +120,7 @@ local spellDamage = 0
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
 PrinceSmite:addParam("on", "PrinceSmite active", SCRIPT_PARAM_INFO, true)
-if not VIP_USER then
+if VIP_USER then
     PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, true)
 end
 PrinceSmite:addParam("keyToggle", "Key to toggle on/off autosmite", SCRIPT_PARAM_ONKEYTOGGLE, true, GetKey("J"))
