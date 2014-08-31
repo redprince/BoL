@@ -261,7 +261,6 @@ function OnDraw()
                 -- draw the line
                 DrawRectangleAL(barPos.x + smiteDamageDistance, barPos.y, 2, 4, configToColor(PrinceSmite.hpbar.colorSmite))
                 
-                DrawTextA(tostring(GetDistance(mob)), 60, WINDOW_W/2, WINDOW_H/7, ARGB(255,255,0,0),"center")
                 -- draw extra line of the skill damage
                 if spellDamage(mob) > 0 and spellSlot and myHero:CanUseSpell(spellSlot) then
                     local spellDamageDistance = (spellDamage(mob) / mob.maxHealth) * distance
