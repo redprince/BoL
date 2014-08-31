@@ -120,7 +120,7 @@ local spellDamage = 0
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
 PrinceSmite:addParam("on", "PrinceSmite active", SCRIPT_PARAM_INFO, true)
-if not VIP_USER then
+if VIP_USER then
     PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, true)
 end
 PrinceSmite:addParam("keyToggle", "Key to toggle on/off autosmite", SCRIPT_PARAM_ONKEYTOGGLE, true, GetKey("J"))
@@ -213,7 +213,7 @@ function OnTick()
                     end
                 -- check for spells
                 elseif spellDamage(mob) > 0
-                and GetDistance(mob) < math.max(235,spellRange + hitboxes[mob.charName])
+                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health <= smiteDamage(mob) + spellDamage(mob) 
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
@@ -261,7 +261,6 @@ function OnDraw()
                 -- draw the line
                 DrawRectangleAL(barPos.x + smiteDamageDistance, barPos.y, 2, 4, configToColor(PrinceSmite.hpbar.colorSmite))
                 
-                DrawTextA(tostring(GetDistance(mob)), 60, WINDOW_W/2, WINDOW_H/7, ARGB(255,255,0,0),"center")
                 -- draw extra line of the skill damage
                 if spellDamage(mob) > 0 and spellSlot and myHero:CanUseSpell(spellSlot) then
                     local spellDamageDistance = (spellDamage(mob) / mob.maxHealth) * distance
