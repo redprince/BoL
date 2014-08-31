@@ -79,7 +79,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 
 -- this script won't do anything if you don't have smite
 if (GetSpellData(SUMMONER_1).name:lower() ~= "summonersmite" and GetSpellData(SUMMONER_2).name:lower() ~= "summonersmite")
-or (myHero.charName ~= "Nunu" and myHero.charName ~= "Chogath" and myHero.charName ~= "Elise")
+and (myHero.charName ~= "Nunu" and myHero.charName ~= "Chogath" and myHero.charName ~= "Elise")
 then return end
 
 -- or if map is not supported
