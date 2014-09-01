@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.20
+_G.PRINCESMITEVERSION = 1.10
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,9 +11,6 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
-    
-    1.20
-    - This script is now auto-updated
     
 	1.10
 	- Hotfix: allow all champions with smite to use this script
@@ -75,6 +72,7 @@ _G.PRINCESMITEUPDATE = true
     
     ToDo
     - Updater switch from manual to automatic
+    - Add some spells to calculation with projectile speed
     - Add an option to draw smite on every mob instead of only activated from config
 --]]
 
@@ -95,7 +93,6 @@ if GetGame().map.index ~= 1 and GetGame().map.index ~= 2 and GetGame().map.index
 
 --[[ CONSTANTS ]]--
 local SMITE_RANGE = 700
-local selfName = GetCurrentEnv() and GetCurrentEnv().FILE_NAME or ""
 local mapID = GetGame().map.index
 local jungle = { --[[ polygons credits 100% to Husky, thanks! --]]
     topLeftOuterJungle     = Polygon(Point(1477, 4747),  Point(1502, 11232), Point(5951, 7201),   Point(3169, 4379)),
@@ -189,9 +186,7 @@ AddGameOverCallback(function() finalupdate = true end)
 function OnLoad()
     -- check for updates
     if _G.PRINCESMITEUPDATE then
-        local updateVersion = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.version'
-        local updateScript = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.lua'
-        CheckUpdate(updateVersion, updateScript)
+        CheckUpdate('https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.version')
     end
     
     -- BoL Tracker callback
@@ -376,9 +371,9 @@ function DrawRectangleAL(x, y, w, h, color)
 end
 
 -- print that an update has been found
-function printUpdated(sv)
-    local updateMsg = "<font color=\"#FFD51C\">[PrinceSmite] New version found and downloaded. Please press F9 twice to update script. (</font>"
-    updateMsg = updateMsg .. "<font color=\"#D13917\">".._G.PRINCESMITEVERSION.."</font>"
+function printUpdateFound(sv)
+    local updateMsg = "<font color=\"#FFD51C\">[PrinceSmite] Update found. Get it on the forum! (</font>"
+    updateMsg = updateMsg .. "<font color=\"#D13917\">".._G.PRINCESMITEUPDATE.."</font>"
     updateMsg = updateMsg .. "<font color=\"#FFD51C\"> => </font>"
     updateMsg = updateMsg .. "<font color=\"#1DB31D\">"..sv.."</font>"
     updateMsg = updateMsg .. "<font color=\"#FFD51C\">)</font>"
@@ -386,11 +381,11 @@ function printUpdated(sv)
 end
 
 -- check for updates and print in chat if found
-function CheckUpdate(urlVersion, urlUpdate, file_exist, length)
+function CheckUpdate(url, file_exist, length)
     if not file_exist then
         if FileExist(LIB_PATH.."PrinceSmiteVersion") then os.remove(LIB_PATH.."PrinceSmiteVersion") end
-        os.executePowerShellAsync([[$webClient = New-Object System.Net.WebClient;$webClient.DownloadFile(']]..urlVersion..[[', ']]..LIB_PATH.."PrinceSmiteVersion"..[[');exit;]])
-        DelayAction(function() CheckUpdate(urlVersion, urlUpdate, true, 0) end)
+        os.executePowerShellAsync([[$webClient = New-Object System.Net.WebClient;$webClient.DownloadFile(']]..url..[[', ']]..LIB_PATH.."PrinceSmiteVersion"..[[');exit;]])
+        DelayAction(function() CheckUpdate(url, true, 0) end)
     else
         if FileExist(LIB_PATH.."PrinceSmiteVersion") then
             FileOpen = io.open(LIB_PATH.."PrinceSmiteVersion", "r")
@@ -399,17 +394,16 @@ function CheckUpdate(urlVersion, urlUpdate, file_exist, length)
             if #FileContent > 0 and #FileContent == length then
                 os.remove(LIB_PATH.."PrinceSmiteVersion")
                 local server_version = tonumber(FileContent)
-                if server_version ~= nil and _G.PRINCESMITEVERSION ~= nil then
-                    if server_version > _G.PRINCESMITEVERSION then
-                        os.executePowerShellAsync([[$webClient = New-Object System.Net.WebClient;$webClient.DownloadFile(']]..urlUpdate..[[', ']]..SCRIPT_PATH..selfName..[[');exit;]])
-                        printUpdated(tostring(server_version))
+                if server_version ~= nil and _G.PRINCEVERSION ~= nil then
+                    if server_version > _G.PRINCEVERSION then
+                        printUpdateFound(tostring(server_version))
                     end
                 end
             else
-                DelayAction(function() CheckUpdate(urlVersion, urlUpdate, true, #FileContent) end, 0.2)
+                DelayAction(function() CheckUpdate(url, true, #FileContent) end, 0.2)
             end
         else
-            DelayAction(function() CheckUpdate(urlVersion, urlUpdate, true, 0) end)
+            DelayAction(function() CheckUpdate(url, true, 0) end)
         end
     end
 end
