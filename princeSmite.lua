@@ -12,6 +12,9 @@ _G.PRINCESMITEUPDATE = true
     
     Changelog
     
+    1.31
+    - Hotfix Kayle Q damage calculation
+    
     1.30
     - Added kayle Q in autospells
     
@@ -186,7 +189,7 @@ elseif myHero.charName == "Elise" then
     spellRange = 475
 elseif myHero.charName == "Kayle" then
     spellSlot = _Q
-    spellDamage = function(target) return 10 + (50 * myHero:GetSpellData(spellSlot).level) + (myHero.ap * 0.6) + myHero.damage end
+    spellDamage = function(target) return 10 + (50 * myHero:GetSpellData(spellSlot).level) + (myHero.ap * 0.6) + myHero.addDamage end
     spellRange = 650
 end
 
@@ -383,6 +386,11 @@ function DrawRectangleAL(x, y, w, h, color)
     Points[1] = D3DXVECTOR2(math.floor(x), math.floor(y))
     Points[2] = D3DXVECTOR2(math.floor(x + w), math.floor(y))
     DrawLines2(Points, math.floor(h), color)
+end
+
+-- rounds a number
+function round(num, dec)
+    return string.format("%." .. (dec or 0) .. "f", num)
 end
 
 -- print that an update has been found
