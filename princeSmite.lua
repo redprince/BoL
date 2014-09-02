@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.52
+_G.PRINCESMITEVERSION = 1.53
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    1.53
+    - VIP users will now attempt both packet and timed way to autosmite to ensure a 100% hit chance
     
     1.52
     - Hotfix draw line on mob hpbar
@@ -272,33 +275,31 @@ function OnTick()
         -- update jungle mobs status
         jungleMobs:update()
         
-        if not VIP_USER then
-            -- now search for valid mobs inside smite range
-            for i, mob in pairs(jungleMobs.objects) do
-                -- mob must be alive and activated from our config
-                if not mob.dead and PrinceSmite.mobs[mob.charName] then
-                    -- check for smite
-                    if GetDistance(mob) < SMITE_RANGE 
-                    and mob.health <= smiteDamage(mob) 
-                    and myHero:GetSpellData(smiteSkill).currentCd < 0.01
-                    then
-                        if PrinceSmite.packetCast then
-                            PacketCastTargetSpell(smiteSkill, mob.networkID)
-                        else
-                            CastSpell(smiteSkill, mob)
-                        end
-                    -- check for spells
-                    elseif spellDamage(mob) > 0
-                    and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
-                    and mob.health <= smiteDamage(mob) + addBonusDmg(spellDamage(mob))
-                    and myHero:GetSpellData(spellSlot).currentCd < 0.01
-                    and checkAutoCast()
-                    then
-                        if PrinceSmite.packetCast then
-                            PacketCastTargetSpell(spellSlot, mob.networkID)
-                        else
-                            CastSpell(spellSlot, mob)
-                        end
+        -- now search for valid mobs inside smite range
+        for i, mob in pairs(jungleMobs.objects) do
+            -- mob must be alive and activated from our config
+            if not mob.dead and PrinceSmite.mobs[mob.charName] then
+                -- check for smite
+                if GetDistance(mob) < SMITE_RANGE 
+                and mob.health <= smiteDamage(mob) 
+                and myHero:GetSpellData(smiteSkill).currentCd < 0.01
+                then
+                    if PrinceSmite.packetCast then
+                        PacketCastTargetSpell(smiteSkill, mob.networkID)
+                    else
+                        CastSpell(smiteSkill, mob)
+                    end
+                -- check for spells
+                elseif spellDamage(mob) > 0
+                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
+                and mob.health <= smiteDamage(mob) + addBonusDmg(spellDamage(mob))
+                and myHero:GetSpellData(spellSlot).currentCd < 0.01
+                and checkAutoCast()
+                then
+                    if PrinceSmite.packetCast then
+                        PacketCastTargetSpell(spellSlot, mob.networkID)
+                    else
+                        CastSpell(spellSlot, mob)
                     end
                 end
             end
