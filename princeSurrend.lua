@@ -13,7 +13,7 @@ function OnRecvPacket(p)
         
         local who = objManager:GetObjectByNetworkId(networkID)
         if who then
-            PrintChat("<font color=\"#00FF00\">[Surrend] "..who.charName.." voted </font>"..vote)
+            PrintChat("<font color=\"#00FF00\">[Surrend]</font><font color=\"#FFCC00\">"..who.charName.."</font><font color=\"#00FF00\"> voted </font>"..vote)
         end
     end
 end
