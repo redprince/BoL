@@ -12,6 +12,10 @@ _G.PRINCESMITEUPDATE = true
     
     Changelog
     
+    1.51
+    - Hotfix "inside jungle" function for vips
+    - Suggestion by germansk8ter to improve packet cast
+    
     1.50
     - Using damage packet for vips to detect faster if smite is needed (all credits to germansk8ter)
     
@@ -222,7 +226,7 @@ function OnLoad()
 end
 
 function OnRecvPacket(p)
-    if p.header == 101 then
+    if p.header == 101 and insideJungle then
         p.pos = 1
         local mob = objManager:GetObjectByNetworkId(p:DecodeF())
         if mob.type == "obj_AI_Minion" and not mob.dead and PrinceSmite.mobs[mob.charName] then
@@ -235,7 +239,7 @@ function OnRecvPacket(p)
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(smiteSkill, mob)
+                        PacketCastTargetSpell(smiteSkill, mob.networkID)
                     else
                         CastSpell(smiteSkill, mob)
                     end
@@ -247,7 +251,7 @@ function OnRecvPacket(p)
                 and checkAutoCast()
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(spellSlot, mob)
+                        PacketCastTargetSpell(spellSlot, mob.networkID)
                     else
                         CastSpell(spellSlot, mob)
                     end
@@ -274,7 +278,7 @@ function OnTick()
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(smiteSkill, mob)
+                        PacketCastTargetSpell(smiteSkill, mob.networkID)
                     else
                         CastSpell(smiteSkill, mob)
                     end
@@ -286,7 +290,7 @@ function OnTick()
                 and checkAutoCast()
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(spellSlot, mob)
+                        PacketCastTargetSpell(spellSlot, mob.networkID)
                     else
                         CastSpell(spellSlot, mob)
                     end
@@ -296,7 +300,7 @@ function OnTick()
     end
     
     -- every 0.5 seconds, only when autosmite is active, we check if we entered in/exited from jungle
-    if VIP_USER and PrinceSmite.on and checkInJungle < os.clock() then
+    if PrinceSmite.on and checkInJungle < os.clock() then
         insideJungle = isInsideJungle() -- store in a boolean
         checkInJungle = os.clock() + 0.5 -- check again in 0.5 seconds
     end
@@ -359,8 +363,8 @@ function addBonusDmg(spellDamage)
 end
 
 -- packet cast
-function PacketCastTargetSpell(spell, target)
-    Packet("S_CAST", {spellId = spell, targetNetworkId = target.networkID}):send()
+function PacketCastTargetSpell(spell, netID)
+    Packet("S_CAST", {spellId = spell, targetNetworkId = netID}):send()
 end
 
 -- return true if own hero is inside jungle, false if not
