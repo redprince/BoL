@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.40
+_G.PRINCESMITEVERSION = 1.50
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    1.50
+    - Using damage packet for vips to detect faster if smite is needed (all credits to germansk8ter)
     
     1.40
     - Added support for "butcher" from items to better casting autospells
@@ -218,10 +221,46 @@ function OnLoad()
     PrintChat("<font color=\"#F244E4\">[PrinceSmite ".._G.PRINCESMITEVERSION.."] Script loaded</font>")
 end
 
+function OnRecvPacket(p)
+    if p.header == 101 then
+        p.pos = 1
+        local mob = objManager:GetObjectByNetworkId(p:DecodeF())
+        if mob.type == "obj_AI_Minion" and not mob.dead and PrinceSmite.mobs[mob.charName] then
+            p.pos = 14
+            local damage = p:DecodeF()
+            if dmg then
+                -- check for smite
+                if GetDistance(mob) < SMITE_RANGE 
+                and mob.health - dmg <= smiteDamage(mob)
+                and myHero:GetSpellData(smiteSkill).currentCd < 0.01
+                then
+                    if PrinceSmite.packetCast then
+                        PacketCastTargetSpell(smiteSkill, mob)
+                    else
+                        CastSpell(smiteSkill, mob)
+                    end
+                -- check for spells
+                elseif spellDamage(mob) > 0
+                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
+                and mob.health - dmg <= smiteDamage(mob) + addBonusDmg(spellDamage(mob))
+                and myHero:GetSpellData(spellSlot).currentCd < 0.01
+                and checkAutoCast()
+                then
+                    if PrinceSmite.packetCast then
+                        PacketCastTargetSpell(spellSlot, mob)
+                    else
+                        CastSpell(spellSlot, mob)
+                    end
+                end
+            end
+        end
+    end
+end
+
 function OnTick()
     PrinceSmite.on = PrinceSmite.keyHold or PrinceSmite.keyToggle
     
-    if PrinceSmite.on and insideJungle then
+    if not VIP_USER and PrinceSmite.on and insideJungle then
         -- update jungle mobs status
         jungleMobs:update()
             
@@ -257,7 +296,7 @@ function OnTick()
     end
     
     -- every 0.5 seconds, only when autosmite is active, we check if we entered in/exited from jungle
-    if PrinceSmite.on and checkInJungle < os.clock() then
+    if VIP_USER and PrinceSmite.on and checkInJungle < os.clock() then
         insideJungle = isInsideJungle() -- store in a boolean
         checkInJungle = os.clock() + 0.5 -- check again in 0.5 seconds
     end
