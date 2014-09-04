@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.60
+_G.PRINCESMITEVERSION = 1.53
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,9 +11,6 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
-    
-    1.60
-    - Fixed autosmite being always active even when turned off
     
     1.53
     - VIP users will now attempt both packet and timed way to autosmite to ensure a 100% hit chance
@@ -236,7 +233,7 @@ function OnLoad()
 end
 
 function OnRecvPacket(p)
-    if p.header == 101 and PrinceSmite.on and insideJungle then
+    if p.header == 101 and insideJungle then
         p.pos = 1
         local networkID = p:DecodeF()
         local mob = objManager:GetObjectByNetworkId(networkID)
