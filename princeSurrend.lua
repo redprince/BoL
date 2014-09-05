@@ -8,7 +8,7 @@ function OnRecvPacket(p)
         p.pos = 11
         local vote = p:Decode1()
         
-        if vote > 0 and vote == (no_count + 1) then
+        if vote == (no_count + 1) then
             vote = "<font color=\"#FF0000\">NO</font>"
             no_count = no_count + 1
         else 
