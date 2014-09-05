@@ -1,12 +1,16 @@
+local no_count = 0
 function OnRecvPacket(p)
-    if p.header == 201 then
+    if p.header == 165 then
+        no_count = 0
+    elseif p.header == 201 then
         p.pos = 6
         local networkID = p:DecodeF()
         p.pos = 11
         local vote = p:Decode1()
         
-        if vote > 0 then 
+        if vote > 0 and vote == (no_count + 1) then
             vote = "<font color=\"#FF0000\">NO</font>"
+            no_count = no_count + 1
         else 
             vote = "<font color=\"#00FF00\">YES</font>"
         end
