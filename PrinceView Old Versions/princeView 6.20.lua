@@ -1,4 +1,4 @@
-_G.PRINCEVERSION = 6.21
+_G.PRINCEVERSION = 6.20
 _G.PRINCEUPDATE = true
 
 _G.HiddenObjects_forceDisable = false
@@ -41,9 +41,6 @@ _G.MovementLimiter_forceDisable = true
     - Limit movement packets sent to server
     
     Changelog
-    
-    6.21
-    - Added Azir sprite
     
     6.20
     - Added GP ult to timed spells
