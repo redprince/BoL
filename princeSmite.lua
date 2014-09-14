@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.10
+_G.PRINCESMITEVERSION = 2.20
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,10 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    2.20
+    - Fixed combo spell + smite (they should have a separate override check)
+    - Fixed autosmite was not working at all because of the range, LOL
     
     2.10
     - Added supported spells: Volibear W, Warwick Q, Nasus Q, Olaf E, Twitch E
@@ -180,10 +184,11 @@ local smiteDamage =
         end
     end
 local finalupdate = false
-local jungleMobs = minionManager(MINION_JUNGLE, 5000)
+local jungleMobs = minionManager(MINION_JUNGLE, 60000)
 local spellSlot = 0
 local spellDamage = function(target) return 0 end
-local casted = false
+local casted_one = false
+local casted_two = false
 
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
@@ -324,30 +329,30 @@ function OnRecvPacket(p)
                 and smiteSkill
                 and mob.health - dmg < smiteDamage(mob)
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
-                and not casted
+                and not casted_one
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(smiteSkill, mob)
                     else
                         CastSpell(smiteSkill, mob)
                     end
-                    casted = true
-                    DelayAction(function() casted = false end, 5)
+                    casted_one = true
+                    DelayAction(function() casted_one = false end, 5)
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health - dmg < adjustDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
-                and not casted
+                and not casted_two
                 then
                     if PrinceSmite.packetCast then
                         MyPacketCast(spellSlot, mob)
                     else
                         MyCastSpell(spellSlot, mob)
                     end
-                    casted = true
-                    DelayAction(function() casted = false end, 5)
+                    casted_two = true
+                    DelayAction(function() casted_two = false end, 5)
                 end
             end
         end
@@ -370,30 +375,30 @@ function OnTick()
                 and mob.health < smiteDamage(mob) 
                 and smiteSkill
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
-                and not casted
+                and not casted_one
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(smiteSkill, mob.networkID)
                     else
                         CastSpell(smiteSkill, mob)
                     end
-                    casted = true
-                    DelayAction(function() casted = false end, 5)
+                    casted_one = true
+                    DelayAction(function() casted_one = false end, 5)
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health < adjustDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
-                and not casted
+                and not casted_two
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(spellSlot, mob.networkID)
                     else
                         CastSpell(spellSlot, mob)
                     end
-                    casted = true
-                    DelayAction(function() casted = false end, 5)
+                    casted_two = true
+                    DelayAction(function() casted_two = false end, 5)
                 end
             end
         end
