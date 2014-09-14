@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.80
+_G.PRINCESMITEVERSION = 1.90
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    1.90
+    - Implemented packet cast even for skillshots
+    - Safety check to don't send multiple cast packet
     
     1.80
     - Fixed lux cast ult (don't know how to cast skillshots with packets)
@@ -163,6 +166,7 @@ local finalupdate = false
 local jungleMobs = minionManager(MINION_JUNGLE, 5000)
 local spellSlot = 0
 local spellDamage = function(target) return 0 end
+local casted = false
 
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
@@ -267,24 +271,30 @@ function OnRecvPacket(p)
                 and smiteSkill
                 and mob.health - dmg < smiteDamage(mob)
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
+                and not casted
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(smiteSkill, mob)
                     else
                         CastSpell(smiteSkill, mob)
                     end
+                    casted = true
+                    DelayAction(function() casted = false end, 5)
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health - dmg < smiteDamage(mob) + addBonusDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
+                and not casted
                 then
                     if PrinceSmite.packetCast then
                         MyPacketCast(spellSlot, mob)
                     else
                         MyCastSpell(spellSlot, mob)
                     end
+                    casted = true
+                    DelayAction(function() casted = false end, 5)
                 end
             end
         end
@@ -307,24 +317,30 @@ function OnTick()
                 and mob.health < smiteDamage(mob) 
                 and smiteSkill
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
+                and not casted
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(smiteSkill, mob.networkID)
                     else
                         CastSpell(smiteSkill, mob)
                     end
+                    casted = true
+                    DelayAction(function() casted = false end, 5)
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
                 and mob.health < smiteDamage(mob) + addBonusDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
+                and not casted
                 then
                     if PrinceSmite.packetCast then
                         PacketCastTargetSpell(spellSlot, mob.networkID)
                     else
                         CastSpell(spellSlot, mob)
                     end
+                    casted = true
+                    DelayAction(function() casted = false end, 5)
                 end
             end
         end
@@ -466,10 +482,9 @@ end
 
 function MyPacketCast(spellSlot, target)
     if myHero.charName == "Lux" then
-        -- I don't know how to cast skillshots with packets lol
-        CastSpell(spellslot, target.pos.x, target.pos.z)
+        _CastSpellOverPacket(spellSlot, target.pos.x, target.pos.z, nil)
     else
-        PacketCastTargetSpell(spellslot, target.networkID)
+        _CastSpellOverPacket(spellSlot, nil, nil, target)
     end
 end
 
@@ -570,4 +585,42 @@ function isAscension()
         end
     end
     return false
+end
+
+-- function found on Bilbao's Veigar script
+function _CastSpellOverPacket(mySpell, PosX, PosZ, CUnit) --DONE
+    local tnid, tposX, tposZ = nil, nil, nil
+    local cansend = false
+    if PosX ~= nil and PosZ ~= nil then
+        tposX = PosX
+        tposZ = PosZ
+        cansend = true
+    else
+        if CUnit ~= nil then
+            tposX = CUnit.x
+            tposZ = CUnit.z
+            tnid = CUnit.networkID
+            cansend = true
+        else            
+            cansend = false
+        end
+    end
+    if cansend then
+        local CSOpacket = CLoLPacket(Packet.headers.S_CAST)
+        CSOpacket.dwArg1 = 1
+        CSOpacket.dwArg2 = 0
+        CSOpacket:EncodeF(myHero.networkID)
+        CSOpacket:Encode1(mySpell)
+        CSOpacket:EncodeF(tposX)
+        CSOpacket:EncodeF(tposZ)
+        CSOpacket:EncodeF(tposX)
+        CSOpacket:EncodeF(tposZ)
+        if tnid~=nil then
+            CSOpacket:EncodeF(tnid)
+        else
+            CSOpacket:EncodeF(0)
+        end
+        SendPacket(CSOpacket)
+    end
+    if not cansend then print("<font color='#F72828'>[CSOP][ERROR]Invalid Operator</font>") end
 end
