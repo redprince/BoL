@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.90
+_G.PRINCESMITEVERSION = 2.00
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,10 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    2.00
+    - Fixed spell damages (automatically calculated)
+    
     1.90
     - Implemented packet cast even for skillshots
     - Safety check to don't send multiple cast packet
@@ -216,23 +220,28 @@ PrinceSmite:permaShow("on")
 --[[ CHARACTER DEPENDANT SPELLS ]]--
 if myHero.charName == "Nunu" then
     spellSlot = _Q
-    spellDamage = function(target) return 250 + (150 * myHero:GetSpellData(spellSlot).level) end
+    --spellDamage = function(target) return 250 + (150 * myHero:GetSpellData(spellSlot).level) end
+    spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 125
 elseif myHero.charName == "Chogath" then
     spellSlot = _R
-    spellDamage = function(target) return 1000 + (myHero.ap * 0.7) end
+    --spellDamage = function(target) return 1000 + (myHero.ap * 0.7) end
+    spellDamage = function(target) return getDmg("R", target, myHero) end
     spellRange = 175
 elseif myHero.charName == "Elise" then
     spellSlot = _Q
-    spellDamage = function(target) return 5 + (35 * myHero:GetSpellData(spellSlot).level) + (target.health * (0.08 + (0.03 * math.floor(myHero.ap / 100)))) end
+    --spellDamage = function(target) return 5 + (35 * myHero:GetSpellData(spellSlot).level) + (target.health * (0.08 + (0.03 * math.floor(myHero.ap / 100)))) end
+    spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 475
 elseif myHero.charName == "Kayle" then
     spellSlot = _Q
-    spellDamage = function(target) return 10 + (50 * myHero:GetSpellData(spellSlot).level) + (myHero.ap * 0.6) + myHero.addDamage end
+    --spellDamage = function(target) return 10 + (50 * myHero:GetSpellData(spellSlot).level) + (myHero.ap * 0.6) + myHero.addDamage end
+    spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 650
 elseif myHero.charName == "Lux" then
     spellSlot = _R
-    spellDamage = function(target) return 200 + (myHero:GetSpellData(spellSlot).level * 100) + (myHero.ap * 0.75) end
+    --spellDamage = function(target) return 200 + (myHero:GetSpellData(spellSlot).level * 100) + (myHero.ap * 0.75) end
+    spellDamage = function(target) return getDmg("R", target, myHero) end
     spellRange = 3340
 end
 
@@ -283,7 +292,7 @@ function OnRecvPacket(p)
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
-                and mob.health - dmg < smiteDamage(mob) + addBonusDmg(spellDamage(mob))
+                and mob.health - dmg < adjustDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
                 and not casted
@@ -329,7 +338,7 @@ function OnTick()
                 -- check for spells
                 elseif spellDamage(mob) > 0
                 and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
-                and mob.health < smiteDamage(mob) + addBonusDmg(spellDamage(mob))
+                and mob.health < adjustDmg(spellDamage(mob))
                 and myHero:GetSpellData(spellSlot).currentCd < 0.01
                 and checkAutoCast()
                 and not casted
@@ -368,7 +377,7 @@ function OnDraw()
             then
                 local barPos, distance, width = GetBarInfo(mob)
                 local smiteDamageDistance = (smiteDamage(mob) / mob.maxHealth) * distance
-                local comboDamage = smiteDamage(mob) + addBonusDmg(spellDamage(mob))
+                local comboDamage = smiteDamage(mob) + adjustDmg(spellDamage(mob))
                 
                 DrawRectangleAL(barPos.x, barPos.y, 2, width, ARGB(255,255,0,255))
                 
@@ -379,7 +388,7 @@ function OnDraw()
                 
                 -- draw extra line of the skill damage
                 if spellDamage(mob) > 0 and spellSlot and myHero:CanUseSpell(spellSlot) then
-                    local spellDamageDistance = (addBonusDmg(spellDamage(mob)) / mob.maxHealth) * distance
+                    local spellDamageDistance = ((adjustDmg(spellDamage(mob))) / mob.maxHealth) * distance
                     DrawRectangleAL(barPos.x + smiteDamageDistance + spellDamageDistance, barPos.y, 2, width, configToColor(PrinceSmite.hpbar.colorSpell))
                 end
                 
@@ -395,8 +404,9 @@ end
 --[[ CUSTOM FUNCTIONS ]]
 
 -- check for bonus damage to monsters from items
-function addBonusDmg(spellDamage)
+function adjustDmg(spellDamage)
     local dmg = spellDamage
+    local pre = dmg
     if GetInventorySlotItem(ITEM_SPIRIT_STONE) then
         dmg = spellDamage + (spellDamage * 0.2)
     elseif GetInventorySlotItem(ITEM_SPIRIT_ELDER_LIZARD) then
@@ -406,7 +416,7 @@ function addBonusDmg(spellDamage)
     end
     
     if ascension then
-        local seconds = math.ceil(GetInGameTimer()%60)
+        local seconds = math.ceil(GetInGameTimer())
         -- ascendant buff reduce incoming damages
         if seconds > 1370 then dmg = dmg * 0.50
         elseif seconds > 1230 then dmg = dmg * 0.52
