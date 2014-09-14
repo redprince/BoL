@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.20
+_G.PRINCESMITEVERSION = 2.30
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -304,8 +304,9 @@ AddGameOverCallback(function() finalupdate = true end)
 function OnLoad()
     -- check for updates
     if _G.PRINCESMITEUPDATE then
+        local rand = math.random(1,10000)
         local updateVersion = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.version'
-        local updateScript = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.lua'
+        local updateScript = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.lua?rand='..rand
         CheckUpdate(updateVersion, updateScript)
     end
     
