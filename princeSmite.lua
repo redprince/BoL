@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 1.70
+_G.PRINCESMITEVERSION = 1.80
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    1.80
+    - Fixed lux cast ult (don't know how to cast skillshots with packets)
     
     1.70
     - Added support for Ascension map (only with spells since smite is disabled)
@@ -266,7 +269,7 @@ function OnRecvPacket(p)
                 and myHero:GetSpellData(smiteSkill).currentCd < 0.01
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(smiteSkill, networkID)
+                        PacketCastTargetSpell(smiteSkill, mob)
                     else
                         CastSpell(smiteSkill, mob)
                     end
@@ -278,9 +281,9 @@ function OnRecvPacket(p)
                 and checkAutoCast()
                 then
                     if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(spellSlot, networkID)
+                        MyPacketCast(spellSlot, mob)
                     else
-                        CastSpell(spellSlot, mob)
+                        MyCastSpell(spellSlot, mob)
                     end
                 end
             end
@@ -449,6 +452,24 @@ function checkAutoCast()
         return true
     else
         return false
+    end
+end
+
+-- Smart Cast
+function MyCastSpell(spellslot, target)
+    if myHero.charName == "Lux" then
+        CastSpell(spellslot, target.pos.x, target.pos.z)
+    else
+        CastSpell(spellslot, target)
+    end
+end
+
+function MyPacketCast(spellSlot, target)
+    if myHero.charName == "Lux" then
+        -- I don't know how to cast skillshots with packets lol
+        CastSpell(spellslot, target.pos.x, target.pos.z)
+    else
+        PacketCastTargetSpell(spellslot, target.networkID)
     end
 end
 
