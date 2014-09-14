@@ -448,6 +448,7 @@ end
 -- check for bonus damage to monsters from items
 function adjustDmg(spellDamage)
     local dmg = spellDamage
+    local pre = dmg
     if GetInventorySlotItem(ITEM_SPIRIT_STONE) then
         dmg = spellDamage + (spellDamage * 0.2)
     elseif GetInventorySlotItem(ITEM_SPIRIT_ELDER_LIZARD) then

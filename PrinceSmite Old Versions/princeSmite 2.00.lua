@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.10
+_G.PRINCESMITEVERSION = 2.00
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,10 +11,6 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
-    
-    2.10
-    - Added supported spells: Volibear W, Warwick Q, Nasus Q, Olaf E, Twitch E
-    - Removed purple debug line on mob healthbar
     
     2.00
     - Fixed spell damages (automatically calculated)
@@ -137,16 +133,7 @@ if GetGame().map.index == 8 then ascension = true end
 
 -- this script won't do anything if you don't have smite or a supported skill
 if GetSpellData(SUMMONER_1).name:lower() ~= "summonersmite" and GetSpellData(SUMMONER_2).name:lower() ~= "summonersmite"
-and myHero.charName ~= "Nunu" 
-and myHero.charName ~= "Chogath" 
-and myHero.charName ~= "Elise" 
-and myHero.charName ~= "Lux" 
-and myHero.charName ~= "Kayle"
-and myHero.charName ~= "Volibear"
-and myHero.charName ~= "Warwick"
-and myHero.charName ~= "Nasus"
-and myHero.charName ~= "Olaf"
-and myHero.charName ~= "Twitch"
+and myHero.charName ~= "Nunu" and myHero.charName ~= "Chogath" and myHero.charName ~= "Elise" and myHero.charName ~= "Lux" and myHero.charName ~= "Kayle"
 then return end
 
 -- or if map is not supported
@@ -228,11 +215,6 @@ PrinceSmite:addSubMenu("AutoCast Spells", "acs")
     PrinceSmite.acs:addParam("eliseQ", "Elise Q", SCRIPT_PARAM_ONOFF, true)
     PrinceSmite.acs:addParam("kayleQ", "Kayle Q", SCRIPT_PARAM_ONOFF, true)
     PrinceSmite.acs:addParam("luxR", "Lux R", SCRIPT_PARAM_ONOFF, true)
-    PrinceSmite.acs:addParam("voliW", "Volibear W", SCRIPT_PARAM_ONOFF, true)
-    PrinceSmite.acs:addParam("wwQ", "Warwick Q", SCRIPT_PARAM_ONOFF, true)
-    PrinceSmite.acs:addParam("nasusQ", "Nasus Q", SCRIPT_PARAM_ONOFF, true)
-    PrinceSmite.acs:addParam("olafE", "Olaf E", SCRIPT_PARAM_ONOFF, true)
-    PrinceSmite.acs:addParam("twitchE", "Twitch E", SCRIPT_PARAM_ONOFF, true)
 PrinceSmite:permaShow("on")
 
 --[[ CHARACTER DEPENDANT SPELLS ]]--
@@ -261,32 +243,6 @@ elseif myHero.charName == "Lux" then
     --spellDamage = function(target) return 200 + (myHero:GetSpellData(spellSlot).level * 100) + (myHero.ap * 0.75) end
     spellDamage = function(target) return getDmg("R", target, myHero) end
     spellRange = 3340
-elseif myHero.charName == "Volibear" then
-    spellSlot = _W
-    spellDamage = function(target) 
-                    if myHero:CanUseSpell(spellSlot) then
-                        return getDmg("W", target, myHero) 
-                    else 
-                        return 0 
-                    end 
-                  end
-    spellRange = 400
-elseif myHero.charName == "Warwick" then
-    spellSlot = _Q
-    spellDamage = function(target) return getDmg("Q", target, myHero) end
-    spellRange = 400
-elseif myHero.charName == "Nasus" then
-    spellSlot = _Q
-    spellDamage = function(target) return getDmg("Q", target, myHero) end
-    spellRange = 100
-elseif myHero.charName == "Olaf" then
-    spellSlot = _E
-    spellDamage = function(target) return getDmg("E", target, myHero) end
-    spellRange = 325
-elseif myHero.charName == "Twitch" then
-    spellSlot = _E
-    spellDamage = function(target) return getDmg("E", target, myHero) end
-    spellRange = 1200
 end
 
 --[[ CUSTOM CALLBACKS ]]
@@ -423,6 +379,8 @@ function OnDraw()
                 local smiteDamageDistance = (smiteDamage(mob) / mob.maxHealth) * distance
                 local comboDamage = smiteDamage(mob) + adjustDmg(spellDamage(mob))
                 
+                DrawRectangleAL(barPos.x, barPos.y, 2, width, ARGB(255,255,0,255))
+                
                 -- draw the line
                 if smiteSkill then
                     DrawRectangleAL(barPos.x + smiteDamageDistance, barPos.y, 2, width, configToColor(PrinceSmite.hpbar.colorSmite))
@@ -448,6 +406,7 @@ end
 -- check for bonus damage to monsters from items
 function adjustDmg(spellDamage)
     local dmg = spellDamage
+    local pre = dmg
     if GetInventorySlotItem(ITEM_SPIRIT_STONE) then
         dmg = spellDamage + (spellDamage * 0.2)
     elseif GetInventorySlotItem(ITEM_SPIRIT_ELDER_LIZARD) then
@@ -516,16 +475,6 @@ function checkAutoCast()
     elseif myHero.charName == "Kayle" and PrinceSmite.acs.kayleQ then
         return true
     elseif myHero.charName == "Lux" and PrinceSmite.acs.luxR then
-        return true
-    elseif myHero.charName == "Volibear" and PrinceSmite.acs.voliW then
-        return true
-    elseif myHero.charName == "Warwick" and PrinceSmite.acs.wwQ then
-        return true
-    elseif myHero.charName == "Nasus" and PrinceSmite.acs.nasusQ then
-        return true
-    elseif myHero.charName == "Olaf" and PrinceSmite.acs.olafE then
-        return true
-    elseif myHero.charName == "Twitch" and PrinceSmite.acs.twitchE then
         return true
     else
         return false
