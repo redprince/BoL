@@ -305,7 +305,7 @@ function OnLoad()
     -- check for updates
     if _G.PRINCESMITEUPDATE then
         local rand = math.random(1,10000)
-        local updateVersion = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.version'
+        local updateVersion = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.version?rand='..rand
         local updateScript = 'https://raw.githubusercontent.com/redprince/BoL/master/princeSmite.lua?rand='..rand
         CheckUpdate(updateVersion, updateScript)
     end
