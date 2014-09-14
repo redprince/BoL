@@ -12,6 +12,9 @@ _G.PRINCESMITEUPDATE = true
     
     Changelog
     
+    2.30
+    - Don't draw smite range if you don't have smite as summoner skill
+    
     2.20
     - Fixed combo spell + smite (they should have a separate override check)
     - Fixed autosmite was not working at all because of the range, LOL
@@ -413,7 +416,7 @@ function OnDraw()
     if PrinceSmite.range.draw == 3 -- draw always
     or (PrinceSmite.range.draw == 2 and (PrinceSmite.keyHold or PrinceSmite.keyToggle)) -- draw when active
     then
-        if not myHero.dead and ReallyOnScreen(myHero.pos) and ascension == false then -- only if my hero is alive and on screen
+        if not myHero.dead and ReallyOnScreen(myHero.pos) and smiteSkill then -- only if my hero is alive and on screen
             DrawCircle3D(myHero.x, myHero.y, myHero.z, SMITE_RANGE, PrinceSmite.range.width, configToColor(PrinceSmite.range.color, PrinceSmite.range.opacity), PrinceSmite.range.quality)
         end
     end
