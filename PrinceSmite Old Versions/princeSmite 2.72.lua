@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.80
+_G.PRINCESMITEVERSION = 2.72
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -12,13 +12,9 @@ _G.PRINCESMITEUPDATE = true
     
     Changelog
     
-    2.80
-    - Rewrite spell cast system, fixing self cast spells (nasus and twitch at the moment)
-    - Removed the unused old packet cast function
-    
     2.72
     - Hotfix spam error when not using supported spells
-        
+    
     2.71
     - Hotfix spam error when cycling through not valid mobs
     
@@ -189,11 +185,7 @@ if GetGame().map.index ~= 1 and GetGame().map.index ~= 2 and GetGame().map.index
 -- Nunu and Cho Gat are not working on ascension, remove them
 if ascension and (myHero.charName == "Nunu" or myHero.charName == "Chogath") then return end
 
--- Nasus is not supported for non VIPs
-if myHero.charName == "Nasus" and not VIP_USER then return end
-
 --[[ CONSTANTS ]]--
-local TYPE_SKILLSHOT, TYPE_TARGET, TYPE_ACTIVE = 1, 2, 3
 local SMITE_RANGE = 700
 local ITEM_SPIRIT_STONE = 1080
 local ITEM_SPIRIT_ELDER_LIZARD = 3209
@@ -223,7 +215,6 @@ local casted_one = false
 local casted_two = false
 local smiteReady = false
 local spellReady = false
-local nasusQStacks = 0
 
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
@@ -279,28 +270,28 @@ PrinceSmite:permaShow("on")
 if myHero.charName == "Nunu" then
     spellSlot = _Q
     spellDamage = function(target) return 250 + (150 * myHero:GetSpellData(spellSlot).level) end
+    --spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 125 +20 -- not true, is 125, but without this he doesn't cast it from AA range
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Chogath" then
     spellSlot = _R
     spellDamage = function(target) return 1000 + (myHero.ap * 0.7) end
+    --spellDamage = function(target) return getDmg("R", target, myHero) end
     spellRange = 175
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Elise" then
     spellSlot = _Q
+    --spellDamage = function(target) return 5 + (35 * myHero:GetSpellData(spellSlot).level) + (target.health * (0.08 + (0.03 * math.floor(myHero.ap / 100)))) end
     spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 475
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Kayle" then
     spellSlot = _Q
+    --spellDamage = function(target) return 10 + (50 * myHero:GetSpellData(spellSlot).level) + (myHero.ap * 0.6) + myHero.addDamage end
     spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 650
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Lux" then
     spellSlot = _R
+    --spellDamage = function(target) return 200 + (myHero:GetSpellData(spellSlot).level * 100) + (myHero.ap * 0.75) end
     spellDamage = function(target) return getDmg("R", target, myHero) end
     spellRange = 3340
-    spellType = TYPE_SKILLSHOT
 elseif myHero.charName == "Volibear" then
     spellSlot = _W
     spellDamage = function(target) 
@@ -314,23 +305,21 @@ elseif myHero.charName == "Volibear" then
 elseif myHero.charName == "Warwick" then
     spellSlot = _Q
     spellDamage = function(target) return 25 + (50 * myHero:GetSpellData(spellSlot).level) + myHero.ap end
+    --spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 400
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Nasus" then
     spellSlot = _Q
-    spellDamage = function(target) return 10 + (20 * myHero:GetSpellData(spellSlot).level) + myHero.damage + myHero.addDamage + nasusQStacks end
+    spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 100
-    spellType = TYPE_ACTIVE
 elseif myHero.charName == "Olaf" then
     spellSlot = _E
     spellDamage = function(target) return 25 + (45 * myHero:GetSpellData(spellSlot).level) + (myHero.addDamage * 0.4) end
+    --spellDamage = function(target) return getDmg("E", target, myHero) end
     spellRange = 325
-    spellType = TYPE_TARGET
 elseif myHero.charName == "Twitch" then
     spellSlot = _E
     spellDamage = function(target) return getDmg("E", target, myHero) end
     spellRange = 1200
-    spellType = TYPE_ACTIVE
 end
 
 --[[ CUSTOM CALLBACKS ]]
@@ -356,18 +345,6 @@ function OnLoad()
 end
 
 function OnRecvPacket(p)
-    if p.header == 254 and p.size == 12 and myHero.charName == "Nasus" then
-        p.pos = 1
-        local networkID = p:DecodeF()
-        if(myHero.networkID == networkID) then
-            p.pos = 8
-            local tmp = p:Decode4()
-            if (tmp == nasusQStacks + 3) or (tmp == nasusQStacks + 6) then
-                nasusQStacks = tmp
-            end
-        end
-    end
-
     if p.header == 101 and PrinceSmite.on then
         p.pos = 1
         local networkID = p:DecodeF()
@@ -397,7 +374,7 @@ function OnRecvPacket(p)
                 end
                 
                 -- case 2: check for spell
-                if spellReady and ((GetDistance(mob) < spellRange + mob.boundingRadius) or TYPE_ACTIVE) then
+                if spellReady and GetDistance(mob) < spellRange + mob.boundingRadius then
                     -- two subcases here
                     if smiteReady then -- if smite is ready then check for smite damage + spell damage
                         if mob.health - dmg < smiteDamage(mob) + adjustDmg(spellDamage(mob)) then
@@ -443,7 +420,7 @@ function OnTick()
                 end
                 
                 -- case 2: check for spell
-                if spellReady and ((GetDistance(mob) < spellRange + mob.boundingRadius) or TYPE_ACTIVE) then
+                if spellReady and GetDistance(mob) < spellRange + mob.boundingRadius then
                     -- two subcases here
                     if smiteReady then -- if smite is ready then check for smite damage + spell damage
                         if mob.health < smiteDamage(mob) + adjustDmg(spellDamage(mob)) then
@@ -479,8 +456,8 @@ function OnDraw()
             if mob and mob.valid and PrinceSmite.mobs[mob.charName:gsub("_", "")] -- mob must be activated from our config
             and ((GetDistance(mob) < SMITE_RANGE * 2) or (spellRange and GetDistance(mob) < spellRange)) -- check for distance, in most cases we will stop here consuming less cpu
             then 
-                local barPos, length, width = GetBarInfo(mob)
-                local smiteDamageDistance = (smiteDamage(mob) / mob.maxHealth) * length
+                local barPos, distance, width = GetBarInfo(mob)
+                local smiteDamageDistance = (smiteDamage(mob) / mob.maxHealth) * distance
                 local comboDamage = smiteDamage(mob) + adjustDmg(spellDamage(mob))
                 
                 -- draw the line
@@ -490,12 +467,12 @@ function OnDraw()
                 
                 -- draw extra line of the skill damage
                 if spellDamage(mob) > 0 and spellSlot and myHero:CanUseSpell(spellSlot) then
-                    local spellDamageDistance = ((adjustDmg(spellDamage(mob))) / mob.maxHealth) * length
+                    local spellDamageDistance = ((adjustDmg(spellDamage(mob))) / mob.maxHealth) * distance
                     DrawRectangleAL(barPos.x + smiteDamageDistance + spellDamageDistance, barPos.y, 2, width, configToColor(PrinceSmite.hpbar.colorSpell))
                 end
                 
-                -- draw the outline (only on small mobs, check this with "length" var from hpbar)
-                if mob.health < comboDamage and length == 62 then
+                -- draw the outline (only on small mobs, check this with width)
+                if mob.health < comboDamage and distance == 62 then
                     OutLineBar(barPos.x, barPos.y, configToColor(PrinceSmite.hpbar.colorOutline))
                 end
             end
@@ -539,6 +516,11 @@ function adjustDmg(spellDamage)
     end
     
     return dmg
+end
+
+-- packet cast
+function PacketCastTargetSpell(spell, netID)
+    Packet("S_CAST", {spellId = spell, targetNetworkId = netID}):send()
 end
 
 -- converts a color from config to a color in ARGB
@@ -593,7 +575,7 @@ function princeCastSmite(target)
         if PrinceSmite.packetCast then
             Packet("S_CAST", {spellId = smiteSkill, targetNetworkId = target.networkID}):send()
         else
-            MyCastSpell(smiteSkill, target, TYPE_TARGET)
+            MyCastSpell(smiteSkill, target)
         end
         casted_one = true
         DelayAction(function() casted_one = false end, 5)
@@ -614,22 +596,18 @@ end
 
 -- Smart Cast
 function MyCastSpell(spellslot, target)
-    if spellType == TYPE_SKILLSHOT then
+    if myHero.charName == "Lux" then
         CastSpell(spellslot, target.pos.x, target.pos.z)
-    elseif spellType == TYPE_TARGET then
+    else
         CastSpell(spellslot, target)
-    elseif spellType == TYPE_ACTIVE then
-        CastSpell(spellslot, myHero)
     end
 end
 
 function MyPacketCast(spellSlot, target)
-    if spellType == TYPE_SKILLSHOT then
+    if myHero.charName == "Lux" then
         _CastSpellOverPacket(spellSlot, target.pos.x, target.pos.z, nil)
-    elseif spellType == TYPE_TARGET then
+    else
         _CastSpellOverPacket(spellSlot, nil, nil, target)
-    elseif spellType == TYPE_ACTIVE then
-        _CastSpellOverPacket(spellSlot, nil, nil, myHero)
     end
 end
 
@@ -694,6 +672,7 @@ end
 
 -- check for updates and print in chat if found
 function CheckUpdate(urlVersion, urlUpdate, file_exist, length)
+
     if not file_exist then
         if FileExist(LIB_PATH.."PrinceSmiteVersion") then os.remove(LIB_PATH.."PrinceSmiteVersion") end
         os.executePowerShellAsync([[$webClient = New-Object System.Net.WebClient;$webClient.DownloadFile(']]..urlVersion..[[', ']]..LIB_PATH.."PrinceSmiteVersion"..[[');exit;]])
