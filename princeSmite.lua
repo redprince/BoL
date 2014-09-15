@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.71
+_G.PRINCESMITEVERSION = 2.72
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    2.72
+    - Hotfix spam error when not using supported spells
     
     2.71
     - Hotfix spam error when cycling through not valid mobs
@@ -451,7 +454,7 @@ function OnDraw()
     if PrinceSmite.hpbar.draw then
         for i, mob in pairs(jungleMobs.objects) do
             if mob and mob.valid and PrinceSmite.mobs[mob.charName:gsub("_", "")] -- mob must be activated from our config
-            and ((GetDistance(mob) < SMITE_RANGE * 2) or (GetDistance(mob) < spellRange)) -- check for distance, in most cases we will stop here consuming less cpu
+            and ((GetDistance(mob) < SMITE_RANGE * 2) or (spellRange and GetDistance(mob) < spellRange)) -- check for distance, in most cases we will stop here consuming less cpu
             then 
                 local barPos, distance, width = GetBarInfo(mob)
                 local smiteDamageDistance = (smiteDamage(mob) / mob.maxHealth) * distance
