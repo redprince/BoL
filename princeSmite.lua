@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.70
+_G.PRINCESMITEVERSION = 2.71
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    2.71
+    - Hotfix spam error when cycling through not valid mobs
     
     2.70
     - Manually calculation for Olaf E damages
@@ -265,7 +268,7 @@ if myHero.charName == "Nunu" then
     spellSlot = _Q
     spellDamage = function(target) return 250 + (150 * myHero:GetSpellData(spellSlot).level) end
     --spellDamage = function(target) return getDmg("Q", target, myHero) end
-    spellRange = 125 +15 -- not true, is 125, but without this he doesn't cast it from AA range
+    spellRange = 125 +20 -- not true, is 125, but without this he doesn't cast it from AA range
 elseif myHero.charName == "Chogath" then
     spellSlot = _R
     spellDamage = function(target) return 1000 + (myHero.ap * 0.7) end
@@ -394,7 +397,7 @@ function OnTick()
         -- now search for valid mobs
         for i, mob in pairs(jungleMobs.objects) do
             -- mob must be alive and activated from our config
-            if not mob.dead and PrinceSmite.mobs[mob.charName] then
+            if mob and mob.valid and not mob.dead and PrinceSmite.mobs[mob.charName] then
                 smiteReady = false
                 spellReady = false
                 
@@ -447,7 +450,7 @@ function OnDraw()
     -- draw smite line
     if PrinceSmite.hpbar.draw then
         for i, mob in pairs(jungleMobs.objects) do
-            if mob and PrinceSmite.mobs[mob.charName:gsub("_", "")] -- mob must be activated from our config
+            if mob and mob.valid and PrinceSmite.mobs[mob.charName:gsub("_", "")] -- mob must be activated from our config
             and ((GetDistance(mob) < SMITE_RANGE * 2) or (GetDistance(mob) < spellRange)) -- check for distance, in most cases we will stop here consuming less cpu
             then 
                 local barPos, distance, width = GetBarInfo(mob)
