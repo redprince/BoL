@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 2.30
+_G.PRINCESMITEVERSION = 2.40
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,11 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    2.40
+    - Complete rewrite of the spell/smite logic cast
+    - Fixed damage calculation for warwick Q
+    - Removed the outline drawing from big mobs
     
     2.30
     - Don't draw smite range if you don't have smite as summoner skill
@@ -192,6 +197,8 @@ local spellSlot = 0
 local spellDamage = function(target) return 0 end
 local casted_one = false
 local casted_two = false
+local smiteReady = false
+local spellReady = false
 
 --[[ USER CONFIGURATION MENU ]]--
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
@@ -281,7 +288,8 @@ elseif myHero.charName == "Volibear" then
     spellRange = 400
 elseif myHero.charName == "Warwick" then
     spellSlot = _Q
-    spellDamage = function(target) return getDmg("Q", target, myHero) end
+    spellDamage = function(target) return 25 + (50 * myHero:GetSpellData(spellSlot).level) + myHero.ap end
+    --spellDamage = function(target) return getDmg("Q", target, myHero) end
     spellRange = 400
 elseif myHero.charName == "Nasus" then
     spellSlot = _Q
@@ -324,39 +332,42 @@ function OnRecvPacket(p)
         p.pos = 1
         local networkID = p:DecodeF()
         local mob = objManager:GetObjectByNetworkId(networkID)
-        if mob.type == "obj_AI_Minion" and not mob.dead and PrinceSmite.mobs[mob.charName] then
+        
+        if mob.type == "obj_AI_Minion" and not mob.dead and PrinceSmite.mobs[mob.charName] then -- mob is enabled from config
             p.pos = 14
             local dmg = p:DecodeF()
-            if dmg then
-                -- check for smite
-                if GetDistance(mob) < SMITE_RANGE 
-                and smiteSkill
-                and mob.health - dmg < smiteDamage(mob)
-                and myHero:GetSpellData(smiteSkill).currentCd < 0.01
-                and not casted_one
-                then
-                    if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(smiteSkill, mob)
-                    else
-                        CastSpell(smiteSkill, mob)
+
+            if dmg then 
+                smiteReady = false
+                spellReady = false
+                
+                -- check for smite ready
+                if smiteSkill and myHero:GetSpellData(smiteSkill).currentCd < 0.01  and GetDistance(mob) < SMITE_RANGE then
+                    smiteReady = true
+                end
+                
+                -- check for spell ready
+                if spellDamage(mob) > 0 and myHero:GetSpellData(spellSlot).currentCd < 0.01 and checkAutoCast() then
+                    spellReady = true
+                end
+                
+                -- case 1: most important, if smite is ready, and enemy is killable with smite, then smite it
+                if smiteReady and mob.health - dmg < smiteDamage(mob) then
+                    princeCastSmite(mob)
+                end
+                
+                -- case 2: check for spell
+                if spellReady and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName]) then
+                    -- two subcases here
+                    if smiteReady then -- if smite is ready then check for smite damage + spell damage
+                        if mob.health - dmg < smiteDamage(mob) + adjustDmg(spellDamage(mob)) then
+                            princeCastSpell(mob)
+                        end
+                    else -- if smite is not ready, check if we can last hit the mob with spell
+                        if mob.health - dmg < adjustDmg(spellDamage(mob)) then
+                            princeCastSpell(mob)
+                        end
                     end
-                    casted_one = true
-                    DelayAction(function() casted_one = false end, 5)
-                -- check for spells
-                elseif spellDamage(mob) > 0
-                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
-                and mob.health - dmg < adjustDmg(spellDamage(mob))
-                and myHero:GetSpellData(spellSlot).currentCd < 0.01
-                and checkAutoCast()
-                and not casted_two
-                then
-                    if PrinceSmite.packetCast then
-                        MyPacketCast(spellSlot, mob)
-                    else
-                        MyCastSpell(spellSlot, mob)
-                    end
-                    casted_two = true
-                    DelayAction(function() casted_two = false end, 5)
                 end
             end
         end
@@ -365,44 +376,44 @@ end
 
 function OnTick()
     PrinceSmite.on = PrinceSmite.keyHold or PrinceSmite.keyToggle
-    
     if PrinceSmite.on then
         -- update jungle mobs status
         jungleMobs:update()
         
-        -- now search for valid mobs inside smite range
+        -- now search for valid mobs
         for i, mob in pairs(jungleMobs.objects) do
             -- mob must be alive and activated from our config
             if not mob.dead and PrinceSmite.mobs[mob.charName] then
-                -- check for smite
-                if GetDistance(mob) < SMITE_RANGE 
-                and mob.health < smiteDamage(mob) 
-                and smiteSkill
-                and myHero:GetSpellData(smiteSkill).currentCd < 0.01
-                and not casted_one
-                then
-                    if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(smiteSkill, mob.networkID)
-                    else
-                        CastSpell(smiteSkill, mob)
+                smiteReady = false
+                spellReady = false
+                
+                -- check for smite ready
+                if smiteSkill and myHero:GetSpellData(smiteSkill).currentCd < 0.01  and GetDistance(mob) < SMITE_RANGE then
+                    smiteReady = true
+                end
+                
+                -- check for spell ready
+                if spellDamage(mob) > 0 and myHero:GetSpellData(spellSlot).currentCd < 0.01 and checkAutoCast() then
+                    spellReady = true
+                end
+        
+                -- case 1: most important, if smite is ready, and enemy is killable with smite, then smite it
+                if smiteReady and mob.health < smiteDamage(mob) then
+                    princeCastSmite(mob)
+                end
+                
+                -- case 2: check for spell
+                if spellReady and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName]) then
+                    -- two subcases here
+                    if smiteReady then -- if smite is ready then check for smite damage + spell damage
+                        if mob.health < smiteDamage(mob) + adjustDmg(spellDamage(mob)) then
+                            princeCastSpell(mob)
+                        end
+                    else -- if smite is not ready, check if we can last hit the mob with spell
+                        if mob.health < adjustDmg(spellDamage(mob)) then
+                            princeCastSpell(mob)
+                        end
                     end
-                    casted_one = true
-                    DelayAction(function() casted_one = false end, 5)
-                -- check for spells
-                elseif spellDamage(mob) > 0
-                and GetDistance(mob) < math.max(240,spellRange + hitboxes[mob.charName])
-                and mob.health < adjustDmg(spellDamage(mob))
-                and myHero:GetSpellData(spellSlot).currentCd < 0.01
-                and checkAutoCast()
-                and not casted_two
-                then
-                    if PrinceSmite.packetCast then
-                        PacketCastTargetSpell(spellSlot, mob.networkID)
-                    else
-                        CastSpell(spellSlot, mob)
-                    end
-                    casted_two = true
-                    DelayAction(function() casted_two = false end, 5)
                 end
             end
         end
@@ -443,8 +454,8 @@ function OnDraw()
                     DrawRectangleAL(barPos.x + smiteDamageDistance + spellDamageDistance, barPos.y, 2, width, configToColor(PrinceSmite.hpbar.colorSpell))
                 end
                 
-                -- draw the outline
-                if mob.health < comboDamage then
+                -- draw the outline (only on small mobs, check this with width)
+                if mob.health < comboDamage and distance == 62 then
                     OutLineBar(barPos.x, barPos.y, configToColor(PrinceSmite.hpbar.colorOutline))
                 end
             end
@@ -538,6 +549,31 @@ function checkAutoCast()
         return true
     else
         return false
+    end
+end
+
+-- general cast
+function princeCastSmite(target)
+    if not casted_one then
+        if PrinceSmite.packetCast then
+            Packet("S_CAST", {spellId = smiteSkill, targetNetworkId = target.networkID}):send()
+        else
+            MyCastSpell(smiteSkill, target)
+        end
+        casted_one = true
+        DelayAction(function() casted_one = false end, 5)
+    end
+end
+
+function princeCastSpell(target)
+    if not casted_two then
+        if PrinceSmite.packetCast then
+            MyPacketCast(spellSlot, target)
+        else
+            MyCastSpell(spellSlot, target)
+        end
+        casted_two = true
+        DelayAction(function() casted_two = false end, 5)
     end
 end
 
@@ -692,5 +728,4 @@ function _CastSpellOverPacket(mySpell, PosX, PosZ, CUnit) --DONE
         end
         SendPacket(CSOpacket)
     end
-    if not cansend then print("<font color='#F72828'>[CSOP][ERROR]Invalid Operator</font>") end
 end
