@@ -353,7 +353,7 @@ elseif myHero.charName == "Pantheon" then
     spellSlot = _Q
     spellDamage = 
         function(target) 
-            if target.health < (target.maxHealth * 0.15) then
+            if target.health < (target.maxHealth * 0.15) and myHero:GetSpellData(_E).level > 0 then
                 return 2 * (25 + (40 * myHero:GetSpellData(spellSlot).level) + (myHero.addDamage * 1.4))
             else
                 return 25 + (40 * myHero:GetSpellData(spellSlot).level) + (myHero.addDamage * 1.4)
