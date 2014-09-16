@@ -314,7 +314,7 @@ elseif myHero.charName == "Lux" then
     spellType = TYPE_SKILLSHOT
 elseif myHero.charName == "Volibear" then
     spellSlot = _W
-    spellDamage = function(target) return getDmg("W", target, myHero) end
+    spellDamage = return getDmg("W", target, myHero) end
     spellRange = 400
 elseif myHero.charName == "Warwick" then
     spellSlot = _Q
@@ -343,17 +343,17 @@ elseif myHero.charName == "Shaco" then
     spellType = TYPE_TARGET
 elseif myHero.charName == "Vi" then
     spellSlot = _E
-    spellDamage = function(target) return -10 + (15 * myHero:GetSpellData(spellSlot).level) + (myHero.addDamage * 0.15) + (myHero.ap * 0.7) end
+    spellDamage = return -10 + (15 * myHero:GetSpellData(spellSlot).level) + (myHero.addDamage * 0.15) + (myHero.ap * 0.7) end
     spellRange = 600
     spellType = TYPE_TARGET
 elseif myHero.charName == "Pantheon" then
     spellSlot = _Q
-    spellDamage = function(target) return getDmg("Q", target, myHero) end
+    spellDamage = return getDmg("Q", target, myHero) end
     spellRange = 600
     spellType = TYPE_TARGET
 elseif myHero.charName == "MasterYi" then
     spellSlot = _Q
-    spellDamage = function(target) return 40 + (60 * myHero:GetSpellData(spellSlot).level) + myHero.addDamage end
+    spellDamage = return 40 + (60 * myHero:GetSpellData(spellSlot).level) + myHero.addDamage end
     spellRange = 600
     spellType = TYPE_TARGET
 end
