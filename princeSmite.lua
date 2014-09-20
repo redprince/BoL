@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 3.20
+_G.PRINCESMITEVERSION = 3.30
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,9 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    3.30
+    - Fixed long loading and reloading time removing statistics
     
     3.20
     - Fixed autosmite sometimes too early
