@@ -1,4 +1,4 @@
-_G.PRINCESMITEVERSION = 3.30
+_G.PRINCESMITEVERSION = 3.32
 _G.PRINCESMITEUPDATE = true
 
 --[[
@@ -11,6 +11,12 @@ _G.PRINCESMITEUPDATE = true
     - customizable
     
     Changelog
+    
+    3.32
+    - Reverted hotfix 3.31
+    
+    3.31
+    - Hotfix packet cast temp broken with 4.18
     
     3.30
     - Fixed long loading and reloading time removing statistics
@@ -258,7 +264,7 @@ local nasusQStacks = 0
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
 PrinceSmite:addParam("on", "PrinceSmite active", SCRIPT_PARAM_INFO, true)
 if VIP_USER then
-    PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, false)
+    PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, true)
 end
 PrinceSmite:addParam("keyToggle", "Key to toggle on/off autosmite", SCRIPT_PARAM_ONKEYTOGGLE, true, GetKey("J"))
 PrinceSmite:addParam("keyHold", "Key to hold to autosmite", SCRIPT_PARAM_ONKEYDOWN, false, GetKey("K"))
