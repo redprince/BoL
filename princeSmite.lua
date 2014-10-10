@@ -258,7 +258,7 @@ local nasusQStacks = 0
 PrinceSmite = scriptConfig("PrinceSmite ".._G.PRINCESMITEVERSION, "PrinceSmite")
 PrinceSmite:addParam("on", "PrinceSmite active", SCRIPT_PARAM_INFO, true)
 if VIP_USER then
-    PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, true)
+    PrinceSmite:addParam("packetCast", "Use packet cast", SCRIPT_PARAM_ONOFF, false)
 end
 PrinceSmite:addParam("keyToggle", "Key to toggle on/off autosmite", SCRIPT_PARAM_ONKEYTOGGLE, true, GetKey("J"))
 PrinceSmite:addParam("keyHold", "Key to hold to autosmite", SCRIPT_PARAM_ONKEYDOWN, false, GetKey("K"))
