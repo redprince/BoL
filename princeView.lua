@@ -1,8 +1,8 @@
-_G.PRINCEVERSION = 7.76
+_G.PRINCEVERSION = 7.77
 _G.PRINCEAUTOUPDATE = true
 
 _G.HiddenObjects_forceDisable = false
-_G.Waypoints_forceDisable = true
+_G.Waypoints_forceDisable = false
 _G.CooldownTracker_forceDisable = false
 _G.SideHud_forceDisable = false
 _G.MinimapSS_forceDisable = false
