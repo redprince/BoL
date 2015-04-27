@@ -15,7 +15,249 @@
 local AutoUpdate = true
 _G.ExtraAwarenessVersion = 1.1
 
-_G.ScriptCode = Base64Decode("iMHYxLppdXhlcX1jfPt2fo5rbXVjY2hpdHRhbnugY2hpenShbbujo2jq9HRhw/XjY4XpdHV8rXVjeihp9HohrXWkY2lpkbRhbpRj42hv9LVhrjVkY+5ptnTorbdkuejpdPWhbnWA4+hqfHTh73ujpGh19LZh7jVlYylpd3RnrrhjpmnpdJGhbXhk42tpunSjbbyjJWjqNHdhg/VjY7NpdHQGbXVja+hp/BmhbXVr4+jx+vSlbTYjZ2gGtHRi8zWnY03pdHTrLXXt6SitdFkhbXXtI+jq+jSlbVpjZGjzNPTp8zWnY02pdXTrLfXt6SitdFnhbnXtI2j0+jSlbVojZGjzNPTs8zWnY01pdnTrLXXvgmjpdI1hbXVnbWhpdLrK2dqo29Hc6HRleXVjY7u5xr21stSzpLyxdHiDbXVjs9rS4tfGw97I2pfM3NXO3b7G0tbco7vG29rVzMuX5OLIbXlpY2hp5ObK2+ljZ+VpdHSd0+TR14jM4+DQ37KFhq6vq62VsJehn8qnuezV39aDpN/K5tnP0ujWnYilo9afqaTJ0tbdspSd0+TR14jM4+DQ37KFhq6vuLqjs5ehsNHc593P1JXW09rS6NnUmZXH0t/X4OPC0ZXXy83WlNrK3+jXhKSY1rKdnNvS0dyndHhwbXVjqODd5tWi5NbVyNbO5+dhcYJjY2jc1+bK3emm0tbP3dthcYVjY2iu7OjTzrbaxNrO4tnU4JVjZ2tpdHTAtHVneWhpdLnZ4efEpN/K5tnP0ujWuc3b593Q23VnbGhpdNXF0cXE1cnWdHhpbXVjyNbK1uDG0XVne2hpdLnZ4efEg8ng1ebG29rW1ojO4tXD2drHY2x8dHRhwLi1rLi908Siv7awwre3w7qnbXlsY2hpytnT4N7S0YhpeH5hbXWDz9fK2NnFm5VjZ29pdHSw28HSxMxpeHthbXWy0azb1ethcXtjY2jM4NXU4HVncGhpdMfE397T173Z2NXV0nVnamhpdNPA1uPM12htgXRhbbjVyMnd2cfQ0ODI12htgXRhbbfE1s2fqLnP0OTHyGhthXRhbbzI17fX4N3P0svI1dvS4+JhcYRjY2it4+vP2eTEx73Z2NXV0nVsY2hpgXRhbaJjY2hpdIC7bXVjaWipdHuhrXV+o2hpizRh7Xpj42iq9HRhg7VjY3Fp9HRnLbVjfmhpdIuhdfVuY2hpunShbbyjJGhztHTjdzWk5nKptvhrLbfobais+rohsHXpY6xpEfThbfyjp2m/9PRhd7Vj6s1pdHRrrXXsyKhpdH6h7f7I42hpfrRh99ojY2hztPTrs/WoY+9ptXQo7bZjammrdLvir3XqZKtpO/WkbXzlp2iwNrhh9HeoYy+ruXS+rfVoaSiudLphs3XAY+hpkXRibYxjbOivtbph8/apYykqenRob7xlpKpwdAqib3jA5Ghqz3VhbYxjZuiv9bth7jZpYy9qu3Zir3xj+Wlrd9HibXbro+lqujVhbsEkKmoqdXxhbndrY8WqdHZ47XjjqamxdPXidXUqZK9rdTZpbQtkZWvGtXRis/aqY+lqfXS+7nVk66jqdboibXavJC9rNXVpbXZla2jGtXRjj/VjYwtpavOAbfVjiGhpdHhkbXVjwq9peIZhbXWz1dHX19m31trauc3b593Q23Vnl2hpdMnU0pWz1dHX19m31trag9zYlNXF0ZXXzNXOlOfK29jIg7u8lOPX0ueDytrO7ZTK0OTR1mhtf3RhbbbY19e+5NjC4dpjZ3BpdHS30ufWzNfXdHh3bXVjqODd5tWi5NbVyNbO5+e30ufWzNfXdHhqbXVjuNvOvOjV3ehjZGlteXRhbb3S1txpeI5hbXXVxN+X293V1erF2NvO5tfQ2+nI0dyX1+PObXlvY2hpytnT4N7S0bjK6NxhcaJjY2iY5tnF3efM0cvOo7bQuaTQxNvd2eaQsu3X1cmq69XT0uPI1tuX6tnT4N7S0Whtf3RhbcjG1dHZ6MTC4d1jZ5FpdHSQ39rH09rS4tfGnLfSr5fW1efV0ueSqODd5tWi5NbVyNbO5+eP2erEY2xydHRhwNbZyLjK6NxhcYFjY2i8t8aqvcnCs6m9vHRle3VjY6/O6LfW3+fI0dyu4uphcX9jY2ivvcCmzMOksK1peINhbXWmxNTV1tXE2MrTx8nd2XRlfnVjY6vK4ODDztjOsde+5NjC4dpjZ3tpdHSkzuHPxcnM38LG5MvI1dvS4+JhcYNjY2is1eDNz9bGzq3b5uPTbXlwY2hpx9fT1uXXuNjN1ejGbXlqY2hp3eTC1ufWY2x4dHRhtNrXqNbO4e2p0ufSyNtpeH5hbXWpzNTOuezK4OljZ3RpdHS0vcest63IxLW1tXVnemhpdMTT1uPGyL7S2euQ0N3E0Niy1+PP4KRjZ3FpdHTE1dbVscnW2XRlcnVjY5bZ4tthcYJjY2jM5tnC4dq209rS6NlhcX5jY2i82ei00NbPyGhsDg36Bg78PKdtfnRhbcXVzNbdt9zC4XVnjmhpdM+m5enVxIiq69XT0uPI1tvGlMHK4OjM0c+J5+TT1unIg9HM4+KB0+TVg2htmnRhbaODs9TO1efGjdnS2tbV49XFjejT1dHd2eeB0+fS0IjP4+bW2qNjZ4ppdHSx397Rxs2/3dnYnNjLxNXZvdfQ2+iSqs3X2ebK0KPT0c9peHRhbZFjY2iFdHRhb3VrbGhpdPphrXUko2hpdHXhbbbkY2jpdXRhLjZjYz4p9XX+rXVkgmjpdHhhbXVnaWhpdOTT1uPXY2zDdHRhqdvS0dyJ1+PN3OeghYuvuquaobiFoaTLsrnZ4efEg6ng1ebG29rW1qKJsKPDq7GSydfX6LKBqdvS0dyJ1+PN3OeghYuvurinr7uFob3Z2NXV0tmDydrY4ZRhcXpjY2iJ6OOBbXlxY2hpopSdnNehn5fP4+LVq3VjY2hpdXRhbXVjY2hpdHRhbXVjY2hpdHRhbZJjY2iGdHRhbnVoamhpdLphrXXko2hpOXThbXbkY2j/dHViyrVjZIdp9HRkbXVjZ25pdHTR397R12htwHRhbbHJ0tbdlNfQ2eTVoIqMurqYpqmmhaal1rKm5enVxKng1ebG29rW1qKJsKPDq7GSydfX6LKBqdvS0dyJ1+PN3OeghYuvurinr7uFoWhtgHRhbbGSxaalo9rQ2+mhY2hpdHRjbXVjY2hpdXRhbXVjY2hpdHRhbXVjY2iHdHRhi3VjY2lpeXthbXWpY6hp9bRhbTVjY2hq9XRhA3VkZMWpdHWAbfVjZmhpdHhnbXVj09rS4uhhcdVjY2il2uPP4ZXG0tTY5rGDkLupmqGdt5afqdehqODd5tWBruzE1c3X2efUp5WfksqnsKPH3OPXoYil2uPP4ZXG0tTY5rGDkLupp66rupafu9rag77O5ufK3OODydfe4tiBlXVnkmhpdJ2PjcXPyMnc2ZTYzt7Xg93X6N3Njd7X1ojN4+vP2eTEx83NsKPDq7GSydfX6LJhbXVjY2lpdHRhbXVjY2hpdHRhbXVjY2hpdHSAbXVjgmhpdHVhcHljY2ivdLRh7rVjY8WpdHWAbfVjZWhpdHhnbXVj09rS4uhhcfdjY2il2uPP4ZXG0tTY5rGDkLupmqGdt5afqdehqODd5tWBruzE1c3X2efUp5WfksqnsKPH3OPXoYil2uPP4ZXG0tTY5rGDkLupp66rupafsufV0tqJ69zK2dqDp9fg4uDQztnM0c+XlMTN0tbWyIjd5u2BztzEzNaXsKPDq7GSydfX6LJhbXVjY2lpdHRhbXVjY2hpdHRhbXVjY2hpdHRkbXVjY2hqdHVibXVjY2hpdHRhbXVjY2hpdKNhbXWaY2hpdHRrjXVjY25ptHRorbVjfmhpdIvhc/Vp46hpujShbdJj42iGdHVhhDVn469qtXa8rnVjemht9Luirne+pGhpi7Rk7bsk42i19TVjMzakY29rtnZor7dnQOlpdULiL3hpJappu3ajb7xlJmyG9nRie/elZ6mrd3S+rvVlhehpdBehZ/SCY+hpgnRhbXlyY2hpuezV39ak2snb2eLG4OhjZ3BpdHTG29bFz83NdHhobXVjzNjK3ebUbXlyY2hpu9nVsuPI0OGx2ebQ0uhjZ3BpdHTX1ujMxdTOdHhmbXVjx83K2HRlcnVjY6zb1ethcYFjY2iw2eiu1uPM0MnZzHRlcXVjY9jY53Rlb3VjY+Bpd3RhbXVjY4ypeIBhbXWqyNy23eLK2tbTvGhtdnRhbe9jZmhpdHRhTeSjY2hpdHZhbXVjY2lqdHRhbXVjY2hpdHRhbXVjY6NpdHSqbXVjbmh7rnRhbX+jY+hzNPThLjdjYwNpdHR47XXjZGtqdI+kbXV6Y2jpdbdibbbmZGj1N7VhdLmjY6htdHZ3sXlrAOvpdTVkb3Vpp6ppe/ijdbYnZWiG+HRiQ3fnaHIpdvUiL3Vj/mhpdIvhbfVkZmlpj7dhbYxjY+hqt3VhrvhkY/QstXRosbVjo2zpdoqlcX0A5uhqNXdjbXunpWhw+LZprjllY4XtdHU3b/lobShr+n7h7vttI2nwfnTj9H+jZfBz9PbpM/enY41sdHQ+r3VkLyqtdLvkrXVApehqfrSm9zvlqGiOt3RhSrdjZIdp9HR4bXVjZ3VpdHSt3NjEz77O5ufK3ONjZ21pdHSp3OjXY2x1dHRhw9rV1tHY4sTC4d1jZ4JpdHSQr+SvkrysxMnR0dbXyNqYu9nVwNjVzNjddHhjbXVjmGhtdnRhbatjZ3VpdHSP3d3TotvM5t3R4bJjZ3VpdHSjzujImZyu4tfQ0dpjZ29pdHSH39bRx6VpeHlhbXXQxNzRdHhobXVj1cnX2OPObXhjY2hl90v4rnluY2hpx9fT1uXXs8nd3HRldnVjY7vK6tmxzunLY2x4dHRhsNbPz8rK19+23dnE181peIVhbXWmxNTV1tXE2MPSuNjN1ejGbXl2Y2hpt9XN2dfExtO32eu30ufWzNfXdHhvbXVjpsnV4NbC0OCo1drY5nRlfXVjY6nN2LjTzuymxNTV1tXE2HVncGhpdLfT0tbXyLvY19/G4XVncmhpdLjQ5OPP0snNx+jC4erWY2yLdHRhsOTR0c3M6JTV3JW2yNrf2eaB0+TVg77O5ufK3OOs0c7YdHhxbXVjpMzNyN3E2LjEz9TL1dfMbXdjY2iudHRhsnVjY2hpdnhhbXVoY2hpgHShbZKjY2mIdPRhbnVjY2xwdHRhvOOn1cngdHRhbXVkY2hpdXRhbXVjY2hpdHRhbXVjY2hpvHRhbb1jY2hpdHZlbXVjaGhpdIBhrXWAo2hqk3ThbXZjY2hthXRhbbzI17fX4N3P0svI1dvS4+JhbXVjY2lpdHRibXVjY2hpdHRhbXVjY2hpdHRibXVjY2hpdHRhbXVjY2hpdHRhbXVjrmhpdMFhbXVlY29zdHRh83WjYympdHRn7rVjaimpdpHi7XWkZGlp9HXhbUvj5GkGtHRijHXjY21pdHRlc3VjY9jb3eLVbXl6Y2hpsNrQ2+mDxtfV4+aej5ipqa6vurqDq3VnZmhpdOPUbXlpY2hp1+DQ0OBjZ2tpdHSbjXVjY2hpdXRhbXVjY2hpdHRhbXVjY2hpdHRhbcRjY2i8dHRhbnVue2hpdLthrXW7oyhpizRl7bxjo2jB9DRhhHVn464ptHTibXZjKmipdE+hbXV6Y2jpNbRibQsjY2kq9HVhbjZkY6nqdXTnbrdjJKlrdHWjb3WkpWpp9bZjbRJk42rGtHRhjHXjY3JpdHRlfHVjY6zY6+LN3NbHttzK6OnUbXl9Y2hpuOPY2+HSxMzS4tuBwNjVzNjdlJySnaWIjGhtk3RhbbnS2tbV49XF1uPKg77O5ufK3OOs0c7YlJySnaWIjGhtfXRhbbnVxN+92ezVbXl1Y2hpuOPY2+HSxMyJx+jC4erWnYhpeHxhbXW40dPX4+vPbXhjY2hpdHSqrXhjY2hpdHSFrXloY2hptcaor3VmY2hpdHRB3LVjY2hpdXRhbXVjY2hpdHRhbXVjY2hpdHRhbcpjY2jQdHRhb3VpjWhpdPthrXX+o2hpi3Ri7fujo2gq9HRhCvVjZHLpdPR4rXbj6iipdABhrnYAo2hqfrQi7n+jpOtzdDbk87WjYynpdHT+7XVkbehp9PthrXXqo6pqEfThbX/j4+nwNLRh+fWlZGkqdnSibnhjAKhpdvshrXXv46pqdbVkbbbkZmgGtHRj9DWjY/Qpt3VibnljpKltdBGhbXdto2jyfnQj9n+jqPJztLnsjHXjY39pdHRld3VjY7Te1cfQ0ODI12htfHRhbefI1N3S5tlhcXxjY2jc49fM0uljZ29pdHS03NjOyNxpeHphbXXGz9fc2XRhcXpjY2i83e7GbXlvY2hpxtnE48jXxNrd2dhhbnVnZ2hpdOjE3XVnbmhpdOfG4enM0M3Y6ehhcHVjY2hpdHRhcXdjY2jLdHdhbXVf5j8AtXhjbXVj12htfHRhbdjS0dbO1+hhcX9jY2jc7KHD3OGRyN1pd3RhbXVjY7ypeHhhbXW41dRpeHxhbXW218nb6NnFbXltY2hpwNXU4cXVzNbddHhibXVjY2xudHRhs97PyGhpdHRhbnVjY2hpdHRhbXVjY2hpdHRhbXVjY9FpdHTWbXVjZWhxi3RhbfZjY2g1tDRhrvZjYw1qdHQ+7XVlZClpdEph7nYvoyhqtXVibRqkY2hG9HRjeHbjZKmqdXTi7nZjJClqdJii7Xa4ZOhpxXUjb8KkJWpwtXVjQ3XkZEdpdHWAbfVjbWhpdHiibXVjpKqsuLmntL2srbO1wcKwvca1try+ysu5xs/ExcvN2drI1d7NztTW4uPR3ufW193f6+za56WUlZudqaqYpa6OkmhteXRhbdzW2MppeHZhbXWRY2xudHRhnaWTk2hthXRhbZrHiMyO2LOG0bSIx6eO2LNhcXZjY2hpeHdhbXWgoGhtdnRhbbJjZmhpdHRhbX2jZmhpdHRhbWWiZWhpdN9hbXXSY2hpdXRrhXVjY6lpdHTtrbVjAOhpdTXhbXVkJGhptXVibVajZugpdfRhf/fk5XlrdnWvL7Vmtarr9sWjb3ZxpWptjXRj8IzjY+hqNnVhiLdjY39pdPRib3djuWjrd1RhafTCY2hqk3ThbX5jY2htdXRhbXVnaGhpdNba4dpjZmhpdHRhbZWjZmhpdHRhbWWiZmhpdHRhbWUiZmhpdHRhbXWjZmhpdHRhbXVjZ2ppdHSSbXllY2hppHRhbXVjY2hpdHRhbXVjY2hpdHRhbXVjY2jYdHRh4XVjY2lpfpJhbXW4Y2hpjXQhbYyjY+iqtHRhzHVjZKnpdHTiLXVjJGhpdHUibXUEI2rpAHWibXVl42qpdvRjCvZjZYCptXd4LXXj8alq9Abibvj+pGhpi3Rh7fbkY2i29PVhDfVf4u1pdHTtbbZkcCkpdMEiLXUBY2hrE3RhbZRj42hwdHRhcHVjY2hpdIyhcXZjY2hpd3RhbXVjY2hpd3RhbXVjY1ioeHhhbXXW2MppeHZhbXWUY2tpdHRhbXVjo2hpdHRibXVjZGppdHRhbXVjY2hpdHRhbXVjY2hpdHRhbXVjY2hpdHRhbXVjY2jgdHRhIHVjY2lpgFthbXWqY6hpz3RhbYxjY+iIdPRhtHWkY7SpNXQi7XZjwGjqdX4h7fZt42jqfrTh7bzjo2iBNDVhhPVl469ptnS8rXVjeihq9H6hr/mqY6lpwPQjbTYjZWhwdbdhrrZmYz6p9XW+rfVkqqipdM+hbXV6I2jpuzShbcpj42iCtHTohHVk468pt3S8rXVjeqhp9H6hL/xto6zxu/Slbfyjo2gEtHRhhHVj4+8ptHS37fVjbahp/bvhsXWvIyxpNXRmbXakaGg/dPViyvXjZMNpdHR4rYXjquiudM+hbXV6I2zpujSmbfzjp2j1dLpidPanY3QquHbirntjJOlvdAoibniA5OhqgTWnb7zkp2i1NThjLnZqY2nrenQ3bvdmwOnpdcKiNHcAY2hr0fRhbX+jY/Ow9LhhuTUnYynpe3RiLnxjOWjqddHh7Xa+Y2hpi/Rp7bzjp2i1NDhhLvVqY2kqe3Q3bfZkwCjpdTvhsXUvIyxqtXVpbfYkami/9fVjSvXjZENpdHR4bXXjMagwdXvisXVvZK5rAbWoblGk42mAdHThLrZrY4XqdHZt7r1lgOlpdbUidXXpZLFp+7WqcDzkqGg5NXX0PHbkZmkrfXT+7vVkJGlzdMoi7ndto2nxu/SlbcEjJ2gqdHxhbjZqYz5p9XW+7fVkvmhpdIshhvVto7Lxu/SlbcEjJ2gq9H5hyjXjZC/puHQtbTtko2npdPWidXVA42hrfjRh9n9jLv0vtL9hdPanY3Tqv3biLoBjgGnpdVFhbnV6I2npgPYpcJLlY2mCdHb5hDVj428rvnShb/VmeapreH5h7wpF42hp17Ve7Dzjp2g1NDhirvZqY+kqe3S37vZlQCjpdbvisXWvJCxrNbVtbXblb2g/dfZkyjbjZINqdHR4rXXjvqlpdIvhb/UqJLRpT3VhbYzjcOgvdcFhdDevY0XqdHV5rUJmeqh19DsiuXVApOhpi/Rs7TsksGhw9rhheXepZ/Wru3YvrzxlgGppdlHibXVtI2kEOjWmbXzlsGhG9XRidzVk/i/qwXRob8NjfChqeIshcfUqpLZpT3VhbYxjZegvdcFhdLexY0XqdHV5rUJmeihp9Duiu3Vq5bVpu3avbVKk42k19cJhtDexY0Wq9HVrbcTrKam4dJljbXVApGhqi/Rj7TzksmhEdXRhhDVk4y5qwXRo78RjQOlpdYyhOnh642jpO/WwbXxlsWhGtXRid7Wl44dp9HSgbXVjZ3lpdHSo3Om2xtrS5Oi30ufWzNfXdHhpbXVjtc3M2d3X0nVnamhpdMfVzunY1mhtfHRhbcjRzNjZ2dhhcXxjY2i849fM0uljZ3BpdHTT0tjIzN7OdHdhbXVjY2j5tHhpbXVj19HW2ePW4XVna2hpdMfVzufXyMxpdXVlcnVjY9vO4thhcXpjY2iwuciBbXlnY2hpyebNbXmCY2hplLy1wcWSlJaagX6p3OjXnYjc7KHD3OGRyN12foFrbXhjY2hpdHRhbXlvY2hpxtnE48jXxNrd2dhhcYRjY2it4+vP2eTEx7vd1ejW4HVngGhpdLjQ5OPP0snN3eLIjcvI1dvS4+Kq29vSg5CZmZ1hcXpjY2iv3eDGbXloY2hp2t3P0XVnZ2hpdLCQ4HVnaGhpdN3b0rNjZ21pdHS01u/IY2xydHRh4eTR2NXL2eZhcXljY2jc6dZhcXljY2il591hcXljY2jj2bJhcHVjY2hpdIyhcXpjY2ilo+fKbXhjY2hpdHRRrHloY2hpsOfE33VnaGhpdN3R4bNjZ25pdHSdnOjG1WhsdHRhbXVjUydteHRhbeHI0WhtjnRhbbnS2tbV49XF1uPKg77O5ufK3OOs0c7YlJxhcXpjY2jW1ejJbXlpY2hp5uPW29ljZmhpdHRhbc6jZmhpdHRhbXWjZ2tpdHSGlnVngmhpdLjQ5OPP0snN3eLIjcvI1dvS4+Kq29vSg5CapKSGlnVnaGhpdIFren9jZ3BpdHSv0uypzNTOdHhibXVjY2xwdHRh1uXEzNrcdHhnbXVj1tjV3ehhcXdjY2hzdHdhbXVjY2h9tHhmbXVjn5fc13Rlc3VjY9rS5OifbXlxY2hpt9XN2dfExtOu5ubQ33VnaGhpdOja3dpjZ3FpdHTH4uPG19HY4nRle3VjY7fX4N3P0svI1dvS4+JhcYJjY2ir1efGo6mnyMvY2NlhcYJjY2i149fC2cvI1dvS4+JhcYhjY2is1eDNz9bGzrbO68rG3+jM0tZpeIFhbXWm1c3K6Nm03NjOyNxpeH9hbXW2xtrS5OixzunLY2yOdHRhsOTR0c3M6JTV3JW2yNrf2eaB0+TVg7vM5t3R4bnS2tbV49XFbXlzY2hptdjFwd7GzqvK4ODDztjOY2x6dHRhsNbPz8rK19+v3MrTx8nd2XRibXVjDWhpdB5hbXVjY2ptdHRhcnVjY3RptHR+rXVkgmjpdHVhbXVncmhpdLjQ5OPP0snNyeTFzunIY2hpdHRibXVjZGhpdHRhbXVjY2hpdHRhbXVjZGhpdHRhbXVjY2hpdHRhbXVjY2hpdClhbXVaY2hpdXRvaXVjY69ptHS8bXVjemhp9JNh7XWqY6lpwLQibTbjZGjGdPVidzXj5HLpdPVrrfXjquipdIwhLnV642rpu3SjbdCjY2iANHXhd7Wl569ptXSt7TdjJChrdHtisHWkpGtpSrTibtKj42mwtLRhyLVjY38pdPSoLbVjuGjpdI2hbfx6Y2npuzSkbdCjY2iAtHThd7Ul6nKpuPyo7blj6qipdA+hbXV6Y2jp+zShbcvj42hztHTqtPWnY7QpOHQibXpjZKludEph7nbA4+hqz3RhbYyjc+iw9LlhyLVjY38pePSnLbpj6uitdABhs3Zq5KxpgDWlb/akaWgqtXlhAzZkZoXq9HVu7rtlqumtdMAiMXckZG1pdbZmbUtk5WvG9fRiuzYpZQVpdHa+7XVjbahp/7vhsXWvIyxpNXRobXakamg/dPViyvXjZMNpdHR47X3jquitdMAhMXUkY29pdbVobUtj5GnGNPRiNPWnYzQpOHWi7nxj5KlwdMri7ndA4+hqT3RhbYxjY+g3NDpidPanY3RqunbuLrtkP6npdYthbfUkJG9pkfVhb4Fkq2qG9XRirrZrY+7qvHToLr1mKumudEQibgcyZOlsdbZqbRLk42kq9X1hwzbkZXKpdfyo7bljrygtdDXhdHVkpG9pSnTibtLj42nEdHRhhHWC43Ipvfyo7bljrygtdDVhd3XAI+hqO/SlbUFjKWmpdfRh7jZqY0XpdHZrLXXsbegzCDoht3Vq5KxpgHWsb/akbmiGdfRiSnVkY38pdfRtbz1mgOppdY1hbwx6I2jpe7arbbVl42t/tnZld3Xl90rpdHTErnLiKqizdEAhMXakJHNp9XVtbcvk5GpGNPRitLatY7QqOHYi7nxjZKpwdEpi73jAJOhqj3VhbYyjY+jEtXRhhPVl4y+qwHQ8bnVjeih79DriuXVqpbRpUfVhbo0jL2uA9IXhNLavY0Wq9HR4LYXjKqmzdEBiM3iwJa5rAjYnb1LkY2p1dkFk7rdwYynrfnR+73Vlr2qxeNHjbXbq5a1pzPTjcYzjZeiwtsBhyHdjY3/pdfSn78Fj6qq1dNHjbXZ7IzRti7Rh7bylr2jGtvRhjHXjY67rwXThb3VnwOppdfrjuXUpJbVpdHfhcVJlY2kG9nRhxTWvaH/pdvTor8Fj/mppdIuhdPXp5bRpO7atbRLlY2mBNMBmhHVp4++rwHT+r/Vjeqhu9Ppju3XqpbZuO/avbXYmcWgG9vRiOXeyaKhs9Hg+r/VkL6q4eVGjbXYq5bdpT3ZhbYxjZegv9sBhdPiyY0XrdHV5LUFoeihp9DvjvHVqJrdpu3exbVKl42lztLbhjHXjY6lpdHRlfXVjY6/Y6MfE397T173Z2NXV0nVna2hpdMbG0NrM2c1peHthbXW218nd6edhcX1jY2i84t3R3drHY2xwdHRhwOTGzs3ddHhpbXVj1c3M2d3X0nVmY2hpdHRh/bVna2hpdOjK2trS2NxpeHxhbXW218nb6NnFbXZkZ21pdHTU0uPHY2xudHRhtLq3g2hteHRhbcrVz2htk3RhbZWrt7y5o6WPnoJtq9fc6K6B4O2QxdfVotnWen9wbWhsdHRhbXVjY2htgHRhbcfIxt686NXT4drHY2x4dHRhseTa0dTY1di04dbX2NtpeIxhbXWn0t/X4OPC0d7Ryoi81+bK3emDi5iOnXRlcnVjY67S4NlhcXpjY2jP3eLFbXloY2hpsKPU1nVnZ2hpdO7Gq3VnaGhpdMfK59pjZ3FpdHTV3OPY0MrO5nRlcXVjY9ve1nRlcXVjY6Tc3XRkbXVjY2hpjLRkbXVjY2hpZLNlcnVjY6Tc1+ZhcXpjY2jS5OifbXlpY2hpsKPU0OdjZmhpdHRhbWUiZ2xpdHTN0uNjZ31pdHSl3OzRz9fK2N3P1JW2xtrS5OiBlXVnaGhpdOHC4d1jZ25pdHTT3OrRx2hsdHRhbXVjvKhsdHRhbXVjY6htd3RhbZqMY2yDdHRhseTa0dTY1djK29yDtsvb3eTVjZ2Uk5iOnXRlcnVjY3VzgX5hcX1jY2i32eun1uHIY2xqdHRhbXlqY2hp3eTC1ufWY2xvdHRh4OXPzNxpeHZhbXVtY2tpdHRhbXV3o2xtdHRhqejGY2xvdHRh397T16ZpeIJhbXWmxNTV1tXE2LrV1dfbdHhmbXVj1+HZ2XRldnVjY87e4tfV1uTRY2xudHRh1OjYxWhtdnRhbYJjZ3VpdHSjzujImZyt2dfQ0dpjZ21pdHTN3NbHY2xsdHRh1uRjZ21pdHTQ3drRY2xydHRhwNbZyLjK6NxhcXljY2jgn9ZhcXtjY2jg5t3V0nVnaWhpdNfN3OjIY2x4dHRhsNbPz8rK19+23dnE181peIJhbXWy0dTS4tm30ufWzNfXdHhubXVjr9fM1eC30ufWzNfXdHRhbXVkY2hpdHRhbXVjY2hpdHRhbXVjY2hpdXRhbXZjY2hpdHRhbXVjY2hpdHRhbQ==")
-_G.ScriptENV = _ENV
-SSL({239,83,100,6,233,107,89,173,77,35,2,95,183,47,136,73,51,71,43,120,36,231,179,142,76,20,22,249,103,40,121,202,106,177,14,131,59,242,251,215,146,143,165,245,227,23,220,18,17,160,29,181,115,58,32,46,130,116,97,206,254,65,201,221,153,28,138,62,133,209,13,149,197,219,38,217,112,170,41,26,15,237,1,99,78,129,21,134,139,224,218,104,137,49,247,19,16,171,85,234,75,252,225,122,127,69,159,192,155,68,198,156,216,119,101,182,48,82,110,180,79,199,3,105,128,145,164,174,232,114,210,118,64,151,9,158,223,241,56,94,66,161,253,91,178,176,135,207,154,244,30,172,25,72,255,88,189,141,125,169,194,70,148,147,53,185,108,61,248,12,80,67,126,205,250,111,63,230,102,191,57,243,60,186,39,92,226,34,140,246,150,81,113,203,175,124,109,54,55,190,50,211,24,168,157,213,7,11,31,196,52,33,228,10,193,167,229,162,44,222,240,144,93,204,184,86,27,4,238,74,87,84,214,152,236,37,98,212,90,166,42,208,195,187,163,132,45,8,117,235,123,200,188,96,5,202,202,202,202,234,75,171,48,225,23,101,75,182,122,198,198,159,215,146,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,101,182,119,127,68,225,23,85,122,16,119,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,101,182,119,127,68,225,23,171,79,182,75,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,160,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,101,182,119,127,68,225,23,101,48,171,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,29,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,101,182,119,127,68,225,23,101,48,171,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,181,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,234,75,171,48,225,23,225,75,182,127,68,252,198,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,115,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,234,75,171,48,225,23,101,75,182,122,198,198,159,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,58,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,13,75,182,21,75,171,237,75,101,48,192,182,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,32,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,234,75,171,48,225,23,225,75,182,127,68,252,198,146,23,252,48,68,85,202,145,254,202,234,75,171,48,225,23,225,75,182,127,68,252,198,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,46,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,192,198,85,16,192,215,234,75,171,48,225,23,225,75,182,127,68,252,198,245,17,146,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,130,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,237,75,16,234,62,21,41,237,62,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,18,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,156,16,85,159,16,225,75,23,192,198,16,234,75,234,23,234,75,171,48,225,23,225,75,182,127,68,252,198,215,237,75,16,234,62,21,41,237,62,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,17,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,156,16,85,159,16,225,75,23,192,198,16,234,75,234,23,234,75,171,48,225,23,225,75,182,127,68,252,198,215,13,75,182,21,75,171,237,75,101,48,192,182,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,160,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,237,75,16,234,62,21,41,237,62,215,182,198,68,48,155,171,75,119,215,101,182,119,127,68,225,23,101,48,171,215,182,198,101,182,119,127,68,225,215,234,75,171,48,225,23,225,75,182,127,68,252,198,146,245,17,17,245,17,46,146,245,17,58,146,202,165,202,181,146,202,145,254,202,29,130,58,32,130,181,18,46,29,58,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,29,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,237,75,16,234,62,21,41,237,62,215,182,198,68,48,155,171,75,119,215,101,182,119,127,68,225,23,101,48,171,215,182,198,101,182,119,127,68,225,215,192,198,16,234,146,245,17,17,245,17,46,146,245,17,58,146,202,165,202,181,146,202,145,254,202,29,130,58,46,18,32,17,130,18,46,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,181,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,237,75,16,234,62,21,41,237,62,215,182,198,68,48,155,171,75,119,215,101,182,119,127,68,225,23,101,48,171,215,182,198,101,182,119,127,68,225,215,192,198,16,234,252,127,192,75,146,245,17,17,245,17,46,146,245,17,58,146,202,165,202,181,146,202,145,254,202,17,181,17,130,160,17,17,17,18,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,115,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,237,75,16,234,62,21,41,237,62,215,182,198,68,48,155,171,75,119,215,101,182,119,127,68,225,23,101,48,171,215,182,198,101,182,119,127,68,225,215,234,198,252,127,192,75,146,245,17,17,245,17,46,146,245,17,58,146,202,165,202,181,146,202,145,254,202,160,29,29,160,115,46,32,181,18,29,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,58,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,192,198,16,234,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,32,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,13,75,182,78,101,75,119,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,46,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,182,16,171,192,75,23,85,198,68,85,16,182,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,17,130,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,14,1,85,119,127,156,182,138,198,234,75,202,145,254,202,130,115,181,17,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,160,18,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,129,197,26,247,78,1,133,237,202,16,68,234,202,68,198,182,202,138,217,198,217,26,16,85,159,75,182,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,160,17,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,129,197,26,247,78,1,133,237,202,16,68,234,202,182,79,156,75,215,138,217,198,217,26,16,85,159,75,182,146,202,145,254,202,251,48,101,75,119,234,16,182,16,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,160,160,146,202,119,75,182,48,119,68,202,75,68,234,35,202,202,202,202,127,252,202,234,75,171,48,225,23,225,75,182,127,68,252,198,215,198,101,23,225,75,182,75,68,82,146,23,110,122,16,182,202,145,254,202,251,138,251,202,182,122,75,68,202,156,119,127,68,182,215,251,133,119,119,198,119,202,127,68,202,217,198,16,234,127,68,225,116,251,23,23,160,29,146,202,119,75,182,48,119,68,202,75,68,234,35,35,202,202,202,202,192,198,85,16,192,202,138,48,119,26,198,101,202,254,18,35,202,202,202,202,192,198,85,16,192,202,38,75,79,26,198,101,202,254,202,18,35,202,202,202,202,192,198,85,16,192,202,38,75,79,202,254,202,251,155,48,85,85,122,127,182,182,16,251,35,202,202,202,202,192,198,85,16,192,202,138,198,234,75,202,254,202,247,13,23,1,85,119,127,156,182,138,198,234,75,35,202,202,202,202,192,198,85,16,192,202,1,182,119,127,68,225,28,79,182,75,202,254,202,101,182,119,127,68,225,23,171,79,182,75,35,202,202,202,202,192,198,85,16,192,202,1,182,119,127,68,225,138,122,16,119,202,254,202,101,182,119,127,68,225,23,85,122,16,119,35,202,202,202,202,192,198,85,16,192,202,1,182,119,127,68,225,1,48,171,202,254,202,101,182,119,127,68,225,23,101,48,171,35,202,202,202,202,192,198,85,16,192,202,99,198,217,198,16,234,202,254,202,252,48,68,85,182,127,198,68,215,146,35,202,202,202,202,202,202,202,202,38,75,79,26,198,101,202,254,202,38,75,79,26,198,101,202,165,202,17,35,202,202,202,202,202,202,202,202,127,252,202,38,75,79,26,198,101,202,65,202,14,38,75,79,202,182,122,75,68,202,38,75,79,26,198,101,202,254,202,17,202,75,68,234,35,202,202,202,202,202,202,202,202,138,48,119,26,198,101,202,254,202,138,48,119,26,198,101,202,165,202,17,35,202,202,202,202,202,202,202,202,127,252,202,138,48,119,26,198,101,202,65,202,14,138,198,234,75,202,182,122,75,68,35,202,202,202,202,202,202,202,202,202,202,202,202,119,75,182,48,119,68,202,251,251,35,202,202,202,202,202,202,202,202,75,192,101,75,35,202,202,202,202,202,202,202,202,202,202,202,202,192,198,85,16,192,202,170,75,110,28,79,182,75,202,254,202,1,182,119,127,68,225,28,79,182,75,215,1,182,119,127,68,225,1,48,171,215,138,198,234,75,245,138,48,119,26,198,101,245,138,48,119,26,198,101,146,146,202,227,202,1,182,119,127,68,225,28,79,182,75,215,1,182,119,127,68,225,1,48,171,215,38,75,79,245,38,75,79,26,198,101,245,38,75,79,26,198,101,146,146,35,202,202,202,202,202,202,202,202,202,202,202,202,127,252,202,170,75,110,28,79,182,75,202,206,202,18,202,182,122,75,68,202,170,75,110,28,79,182,75,202,254,202,170,75,110,28,79,182,75,202,165,202,160,115,58,202,75,68,234,35,202,202,202,202,202,202,202,202,202,202,202,202,119,75,182,48,119,68,202,1,182,119,127,68,225,138,122,16,119,215,170,75,110,28,79,182,75,146,35,202,202,202,202,202,202,202,202,75,68,234,35,202,202,202,202,75,68,234,35,202,202,202,202,192,198,85,16,192,202,247,133,170,129,202,254,202,247,13,23,1,85,119,127,156,182,133,170,129,202,198,119,202,3,247,13,202,254,202,247,13,128,35,202,202,202,202,192,198,16,234,215,99,198,217,198,16,234,245,68,127,192,245,251,171,182,251,245,247,133,170,129,146,215,146,35,202,202,202,202,99,198,217,198,16,234,202,254,202,252,48,68,85,182,127,198,68,215,146,202,75,68,234,35,46,80,52,51,8,168,219,97,97,165,200,139,221,49,65,229,199,9,255,210,113,185,215,172,157,64,202,50,99,26,86,148,3,232,103,151,47,45,7,246,149,196,53,53,136,103,243,197,100,177,152,27,169,58,97,15,49,1,23,93,27,107,202,81,145,41,84,218,182,101,162,210,15,213,246,210,87,146,39,211,77,87,29,163,187,81,52,107,217,148,115,170,178,173,165,20,9,113,203,115,60,155,136,244,46,106,114,148,153,51,14,202,217,228,164,208,56,162,235,196,185,112,155,136,59,145,246,3,87,87,160,91,62,185,8,47,22,215,14,36,6,147,35,151,158,190,179,198,208,25,164,41,56,23,33,83,159,126,51,51,136,146,20,85,207,176,43,222,242,169,94,103,18,232,128,213,111,132,157,183,5,183,82,216,79,90,175,135,15,38,68,50,124,137,77,29,36,53,89,195,6,238,12,105,52,220,209,143,75,65,201,186,194,59,172,107,50,172,160,18,78,222,119,211,30,206,171,106,226,223,36,100,246,73,153,206,17,21,42,177,177,160,206,199,247,195,135,56,101,11,231,153,165,28,1,255})
---
+if not FileExist(SPRITE_PATH .. "PrinceView/champIcons/Generic.png") then 
+    print("<font color=\"#FF794C\"><b>Extra Awareness: </b></font> <font color=\"#FFDFBF\">Missing sprites, download them first!</b></font>")
+    return 
+end
+
+ExtraAwareness = scriptConfig("ExtraAwareness ".._G.ExtraAwarenessVersion,"ExtraAwareness")
+ExtraAwareness:addParam("enabled", "Extra awareness enabled", SCRIPT_PARAM_ONOFF, true)
+
+local LoadedMessage = "Version ".._G.ExtraAwarenessVersion.." loaded. "
+local sprites = {}
+
+function OnLoad()
+    if not _G.PrinceViewVersion then
+        LoadedMessage = LoadedMessage .."Use PrinceView to add time since SS over grey icons"
+    end
+    
+    -- Autoupdate
+    if AutoUpdate then
+        local ToUpdate = {}
+        ToUpdate.Version = _G.ExtraAwarenessVersion
+        ToUpdate.UseHttps = true
+        
+        ToUpdate.Host = "raw.githubusercontent.com"
+        ToUpdate.VersionPath = "/redprince/BoL/master/ExtraAwareness.version"
+        ToUpdate.ScriptPath =  "/redprince/BoL/master/ExtraAwareness.lua"
+        ToUpdate.SavePath = SCRIPT_PATH..GetCurrentEnv().FILE_NAME
+        ToUpdate.CallbackUpdate = function(NewVersion,OldVersion) print("<font color=\"#FF794C\"><b>Extra Awareness: </b></font> <font color=\"#FFDFBF\">Updated from "..OldVersion.." to "..NewVersion..". </b></font>") end
+        ToUpdate.CallbackNoUpdate = function(OldVersion) print("<font color=\"#FF794C\"><b>ExtraAwareness: </b></font> <font color=\"#FFDFBF\">"..LoadedMessage.."</b></font>") end
+        ToUpdate.CallbackNewVersion = function(NewVersion) print("<font color=\"#FF794C\"><b>Extra Awareness: </b></font> <font color=\"#FFDFBF\">New Version found ("..NewVersion.."). Please wait until its downloaded</b></font>") end
+        ToUpdate.CallbackError = function(NewVersion) print("<font color=\"#FF794C\"><b>Extra Awareness: </b></font> <font color=\"#FFDFBF\">Error while Downloading. Please try again.</b></font>") end
+        ScriptUpdate(ToUpdate.Version,ToUpdate.UseHttps, ToUpdate.Host, ToUpdate.VersionPath, ToUpdate.ScriptPath, ToUpdate.SavePath, ToUpdate.CallbackUpdate,ToUpdate.CallbackNoUpdate, ToUpdate.CallbackNewVersion,ToUpdate.CallbackError)
+    end
+    
+    for i, enemy in ipairs(GetEnemyHeroes()) do
+        if FileExist(SPRITE_PATH .. "PrinceView/champIcons/".. enemy.charName ..".png") then
+            sprites[i] = createSprite("PrinceView/champIcons/".. enemy.charName ..".png")
+            sprites[i]:SetScale(0.4, 0.4)
+        else
+            PrintChat("[Extra Awareness] Missing sprite icon for "..enemy.charName..". Please download sprites from forum.")
+            sprites[i] = createSprite("PrinceView/champIcons/Generic.png")
+            sprites[i]:SetScale(0.4, 0.4)
+        end
+    end
+end
+
+function OnDraw()
+    if ExtraAwareness.enabled then        
+        for i, enemy in ipairs(GetEnemyHeroes()) do
+            if not enemy.visible and not enemy.dead then
+                sprites[i]:Draw(GetMinimapX(enemy.pos.x) -10, GetMinimapY(enemy.pos.z) -10, 255)
+            end
+        end
+    end
+end
+
+
+class "ScriptUpdate"
+function ScriptUpdate:__init(LocalVersion,UseHttps, Host, VersionPath, ScriptPath, SavePath, CallbackUpdate, CallbackNoUpdate, CallbackNewVersion,CallbackError)
+    self.LocalVersion = LocalVersion
+    self.Host = Host
+    self.VersionPath = '/BoL/TCPUpdater/GetScript'..(UseHttps and '5' or '6')..'.php?script='..self:Base64Encode(self.Host..VersionPath)..'&rand='..math.random(99999999)
+    self.ScriptPath = '/BoL/TCPUpdater/GetScript'..(UseHttps and '5' or '6')..'.php?script='..self:Base64Encode(self.Host..ScriptPath)..'&rand='..math.random(99999999)
+    self.SavePath = SavePath
+    self.CallbackUpdate = CallbackUpdate
+    self.CallbackNoUpdate = CallbackNoUpdate
+    self.CallbackNewVersion = CallbackNewVersion
+    self.CallbackError = CallbackError
+    AddDrawCallback(function() self:OnDraw() end)
+    self:CreateSocket(self.VersionPath)
+    self.DownloadStatus = 'Connect to Server for VersionInfo'
+    AddTickCallback(function() self:GetOnlineVersion() end)
+end
+
+function ScriptUpdate:print(str)
+    print('<font color="#FFFFFF">'..os.clock()..': '..str)
+end
+
+function ScriptUpdate:OnDraw()
+    if self.DownloadStatus ~= 'Downloading Script (100%)' and self.DownloadStatus ~= 'Downloading VersionInfo (100%)'then
+        DrawText('Download Status: '..(self.DownloadStatus or 'Unknown'),50,10,50,ARGB(0xFF,0xFF,0xFF,0xFF))
+    end
+end
+
+function ScriptUpdate:CreateSocket(url)
+    if not self.LuaSocket then
+        self.LuaSocket = require("socket")
+    else
+        self.Socket:close()
+        self.Socket = nil
+        self.Size = nil
+        self.RecvStarted = false
+    end
+    self.LuaSocket = require("socket")
+    self.Socket = self.LuaSocket.tcp()
+    self.Socket:settimeout(0, 'b')
+    self.Socket:settimeout(99999999, 't')
+    self.Socket:connect('sx-bol.eu', 80)
+    self.Url = url
+    self.Started = false
+    self.LastPrint = ""
+    self.File = ""
+end
+
+function ScriptUpdate:Base64Encode(data)
+    local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    return ((data:gsub('.', function(x)
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return b:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
+end
+
+function ScriptUpdate:GetOnlineVersion()
+    if self.GotScriptVersion then return end
+
+    self.Receive, self.Status, self.Snipped = self.Socket:receive(1024)
+    if self.Status == 'timeout' and not self.Started then
+        self.Started = true
+        self.Socket:send("GET "..self.Url.." HTTP/1.1\r\nHost: sx-bol.eu\r\n\r\n")
+    end
+    if (self.Receive or (#self.Snipped > 0)) and not self.RecvStarted then
+        self.RecvStarted = true
+        self.DownloadStatus = 'Downloading VersionInfo (0%)'
+    end
+
+    self.File = self.File .. (self.Receive or self.Snipped)
+    if self.File:find('</s'..'ize>') then
+        if not self.Size then
+            self.Size = tonumber(self.File:sub(self.File:find('<si'..'ze>')+6,self.File:find('</si'..'ze>')-1))
+        end
+        if self.File:find('<scr'..'ipt>') then
+            local _,ScriptFind = self.File:find('<scr'..'ipt>')
+            local ScriptEnd = self.File:find('</scr'..'ipt>')
+            if ScriptEnd then ScriptEnd = ScriptEnd - 1 end
+            local DownloadedSize = self.File:sub(ScriptFind+1,ScriptEnd or -1):len()
+            self.DownloadStatus = 'Downloading VersionInfo ('..math.round(100/self.Size*DownloadedSize,2)..'%)'
+        end
+    end
+    if self.File:find('</scr'..'ipt>') then
+        self.DownloadStatus = 'Downloading VersionInfo (100%)'
+        local a,b = self.File:find('\r\n\r\n')
+        self.File = self.File:sub(a,-1)
+        self.NewFile = ''
+        for line,content in ipairs(self.File:split('\n')) do
+            if content:len() > 5 then
+                self.NewFile = self.NewFile .. content
+            end
+        end
+        local HeaderEnd, ContentStart = self.File:find('<scr'..'ipt>')
+        local ContentEnd, _ = self.File:find('</sc'..'ript>')
+        if not ContentStart or not ContentEnd then
+            if self.CallbackError and type(self.CallbackError) == 'function' then
+                self.CallbackError()
+            end
+        else
+            self.OnlineVersion = (Base64Decode(self.File:sub(ContentStart + 1,ContentEnd-1)))
+            self.OnlineVersion = tonumber(self.OnlineVersion)
+            if self.OnlineVersion > self.LocalVersion then
+                if self.CallbackNewVersion and type(self.CallbackNewVersion) == 'function' then
+                    self.CallbackNewVersion(self.OnlineVersion,self.LocalVersion)
+                end
+                self:CreateSocket(self.ScriptPath)
+                self.DownloadStatus = 'Connect to Server for ScriptDownload'
+                AddTickCallback(function() self:DownloadUpdate() end)
+            else
+                if self.CallbackNoUpdate and type(self.CallbackNoUpdate) == 'function' then
+                    self.CallbackNoUpdate(self.LocalVersion)
+                end
+            end
+        end
+        self.GotScriptVersion = true
+    end
+end
+
+function ScriptUpdate:DownloadUpdate()
+    if self.GotScriptUpdate then return end
+    self.Receive, self.Status, self.Snipped = self.Socket:receive(1024)
+    if self.Status == 'timeout' and not self.Started then
+        self.Started = true
+        self.Socket:send("GET "..self.Url.." HTTP/1.1\r\nHost: sx-bol.eu\r\n\r\n")
+    end
+    if (self.Receive or (#self.Snipped > 0)) and not self.RecvStarted then
+        self.RecvStarted = true
+        self.DownloadStatus = 'Downloading Script (0%)'
+    end
+
+    self.File = self.File .. (self.Receive or self.Snipped)
+    if self.File:find('</si'..'ze>') then
+        if not self.Size then
+            self.Size = tonumber(self.File:sub(self.File:find('<si'..'ze>')+6,self.File:find('</si'..'ze>')-1))
+        end
+        if self.File:find('<scr'..'ipt>') then
+            local _,ScriptFind = self.File:find('<scr'..'ipt>')
+            local ScriptEnd = self.File:find('</scr'..'ipt>')
+            if ScriptEnd then ScriptEnd = ScriptEnd - 1 end
+            local DownloadedSize = self.File:sub(ScriptFind+1,ScriptEnd or -1):len()
+            self.DownloadStatus = 'Downloading Script ('..math.round(100/self.Size*DownloadedSize,2)..'%)'
+        end
+    end
+    if self.File:find('</scr'..'ipt>') then
+        self.DownloadStatus = 'Downloading Script (100%)'
+        local a,b = self.File:find('\r\n\r\n')
+        self.File = self.File:sub(a,-1)
+        self.NewFile = ''
+        for line,content in ipairs(self.File:split('\n')) do
+            if content:len() > 5 then
+                self.NewFile = self.NewFile .. content
+            end
+        end
+        local HeaderEnd, ContentStart = self.NewFile:find('<sc'..'ript>')
+        local ContentEnd, _ = self.NewFile:find('</scr'..'ipt>')
+        if not ContentStart or not ContentEnd then
+            if self.CallbackError and type(self.CallbackError) == 'function' then
+                self.CallbackError()
+            end
+        else
+            local newf = self.NewFile:sub(ContentStart+1,ContentEnd-1)
+            local newf = newf:gsub('\r','')
+            if newf:len() ~= self.Size then
+                if self.CallbackError and type(self.CallbackError) == 'function' then
+                    self.CallbackError()
+                end
+                return
+            end
+            local newf = Base64Decode(newf)
+            if type(load(newf)) ~= 'function' then
+                if self.CallbackError and type(self.CallbackError) == 'function' then
+                    self.CallbackError()
+                end
+            else
+                local f = io.open(self.SavePath,"w+b")
+                f:write(newf)
+                f:close()
+                if self.CallbackUpdate and type(self.CallbackUpdate) == 'function' then
+                    self.CallbackUpdate(self.OnlineVersion,self.LocalVersion)
+                end
+            end
+        end
+        self.GotScriptUpdate = true
+    end
+end
