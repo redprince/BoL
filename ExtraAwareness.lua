@@ -28,7 +28,7 @@ local sprites = {}
 
 function OnLoad()
     if not _G.PrinceViewVersion then
-        LoadedMessage = LoadedMessage .."Use PrinceView to add time since SS over grey icons"
+        LoadedMessage = LoadedMessage .."Use PrinceView to add SS time over grey icons"
     end
     
     -- Autoupdate
