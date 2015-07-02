@@ -63,9 +63,7 @@ function OnRecvPacket(p)
         old_vote = new_vote
         
         if who then
-            if PrinceView.ot.surr then
-                PrintChat("<font color=\"#00FF00\">[Surrender]</font><font color=\"#FFCC00\"> "..who.name.." ("..who.charName..")</font><font color=\"#00FF00\"> voted </font>"..voteTxt)
-            end
+            PrintChat("<font color=\"#00FF00\">[Surrender]</font><font color=\"#FFCC00\"> "..who.name.." ("..who.charName..")</font><font color=\"#00FF00\"> voted </font>"..voteTxt)
         end
     end
 end
