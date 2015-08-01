@@ -52,7 +52,7 @@ function OnRecvPacket(p)
         
         if old_vote == 0 then
             voteTxt = "<font color=\"#00FF00\">YES</font>"
-        elseif new_vote ~= old_vote then
+        elseif new_vote == old_vote then
             voteTxt = "<font color=\"#FF0000\">NO</font>"
         else 
             voteTxt = "<font color=\"#00FF00\">YES</font>"
