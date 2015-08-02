@@ -50,18 +50,18 @@ function OnRecvPacket(p)
         p.pos = new['surr_vote_val_pos']
         local new_vote = p:Decode1()
         
-        if old_vote == 0 then
+        if old_vote == 0 or new_vote ~= old_vote then
             voteTxt = "<font color=\"#00FF00\">YES</font>"
-        elseif new_vote == old_vote then
-            voteTxt = "<font color=\"#FF0000\">NO</font>"
         else 
-            voteTxt = "<font color=\"#00FF00\">YES</font>"
+            voteTxt = "<font color=\"#00FF00\">NO</font>"
         end
         
         old_vote = new_vote
         
         if who then
             PrintChat("<font color=\"#00FF00\">[Surrender]</font><font color=\"#FFCC00\"> "..who.charName.."</font><font color=\"#00FF00\"> voted </font>"..voteTxt)
+        else
+            print("Error on detecting who votes, detected vote is: "..voteTxt)
         end
     end
 end
