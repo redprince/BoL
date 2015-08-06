@@ -1,9 +1,9 @@
 local old_vote = 0
 local new = {}
-    new['surr_start_end_header'] = 0x011B --
-    new['surr_vote_header'] = 0x0040 --
-    new['surr_vote_netid_pos'] = 15 --
-    new['surr_vote_val_pos'] = 10 --
+    new['surr_start_end_header'] = 0x00AA --
+    new['surr_vote_header'] = 0x0009 --
+    new['surr_vote_netid_pos'] = 6 --
+    new['surr_vote_val_pos'] = 11 --
 local decoded_table_4_new = { -- working for patch 5.14
     [0x01] = 0xD0,[0x02] = 0x10,[0x03] = 0x0F,[0x04] = 0xA6,[0x05] = 0x1C,[0x06] = 0xC4,[0x07] = 0xF4,[0x08] = 0x0A,
     [0x09] = 0x97,[0x0A] = 0xD9,[0x0B] = 0x65,[0x0C] = 0xB8,[0x0D] = 0x43,[0x0E] = 0x33,[0x0F] = 0xC5,[0x10] = 0xCD,
@@ -41,22 +41,22 @@ local decoded_table_4_new = { -- working for patch 5.14
 
 function OnRecvPacket(p)
     if p.header == new['surr_start_end_header'] then
-        old_vote = 0
+        --old_vote = 0
     elseif p.header == new['surr_vote_header'] then
         p.pos = new['surr_vote_netid_pos']
         local networkID = PacketDecryptF(p:DecodeF(), decoded_table_4_new)
         local who = objManager:GetObjectByNetworkId(networkID)
         
         p.pos = new['surr_vote_val_pos']
-        local new_vote = p:Decode1()
+        local vote = p:Decode1()
         
-        if old_vote == 0 or new_vote ~= old_vote then
+        if vote == 0x41 then
             voteTxt = "<font color=\"#00FF00\">YES</font>"
+            storeMessage(fileName, "[Surrender] "..who.charName.." voted YES \n")
         else 
-            voteTxt = "<font color=\"#00FF00\">NO</font>"
+            voteTxt = "<font color=\"#FF0000\">NO</font>"
+            storeMessage(fileName, "[Surrender] "..who.charName.." voted NO \n")
         end
-        
-        old_vote = new_vote
         
         if who then
             PrintChat("<font color=\"#00FF00\">[Surrender]</font><font color=\"#FFCC00\"> "..who.charName.."</font><font color=\"#00FF00\"> voted </font>"..voteTxt)
