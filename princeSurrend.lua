@@ -5,7 +5,7 @@ local new = {}
     new['surr_vote_val_pos'] = 8 --
     new['surr_vote_yes_value'] = 0xCA --
 
-local decoded_table_4_new = { -- 5.15 surrender netids
+local decoded_table_4_new = { -- 5.16 surrender netids
     [0x01] = 0x38,[0x02] = 0x55,[0x03] = 0xA5,[0x04] = 0xAD,[0x05] = 0xD2,[0x06] = 0xC6,[0x07] = 0xB3,[0x08] = 0x7F,
     [0x09] = 0x03,[0x0A] = 0x42,[0x0B] = 0x08,[0x0C] = 0xBA,[0x0D] = 0x91,[0x0E] = 0xEE,[0x0F] = 0x51,[0x10] = 0x73,
     [0x11] = 0x5F,[0x12] = 0x13,[0x13] = 0x96,[0x14] = 0x24,[0x15] = 0x67,[0x16] = 0x34,[0x17] = 0x89,[0x18] = 0x8E,
@@ -51,10 +51,8 @@ function OnRecvPacket(p)
         
         if vote == new['surr_vote_yes_value'] then
             voteTxt = "<font color=\"#00FF00\">YES</font>"
-            storeMessage(fileName, "[Surrender] "..who.charName.." voted YES \n")
         else 
             voteTxt = "<font color=\"#FF0000\">NO</font>"
-            storeMessage(fileName, "[Surrender] "..who.charName.." voted NO \n")
         end
         
         if who then
