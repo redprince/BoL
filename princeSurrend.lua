@@ -1,9 +1,9 @@
-local old_vote = 0
+local voteVar = 0
 local new = {}
+    new['surr_start_end_header'] = 0x012A --
     new['surr_vote_header'] = 0x00E3 --
     new['surr_vote_netid_pos'] = 9 --
     new['surr_vote_val_pos'] = 8 --
-    new['surr_vote_yes_value'] = 0xCA --
 
 local decoded_table_4_new = { -- 5.16 surrender netids
     [0x01] = 0x38,[0x02] = 0x55,[0x03] = 0xA5,[0x04] = 0xAD,[0x05] = 0xD2,[0x06] = 0xC6,[0x07] = 0xB3,[0x08] = 0x7F,
@@ -41,7 +41,9 @@ local decoded_table_4_new = { -- 5.16 surrender netids
 }
 
 function OnRecvPacket(p)
-    if p.header == new['surr_vote_header'] then
+    if p.header == new['surr_start_end_header'] then
+        voteVar = 0
+    elseif p.header == new['surr_vote_header'] then
         p.pos = new['surr_vote_netid_pos']
         local networkID = PacketDecryptF(p:DecodeF(), decoded_table_4_new)
         local who = objManager:GetObjectByNetworkId(networkID)
@@ -49,7 +51,11 @@ function OnRecvPacket(p)
         p.pos = new['surr_vote_val_pos']
         local vote = p:Decode1()
         
-        if vote == new['surr_vote_yes_value'] then
+        if voteVar == 0 then
+            voteVar = vote
+        end
+        
+        if vote == voteVar then
             voteTxt = "<font color=\"#00FF00\">YES</font>"
         else 
             voteTxt = "<font color=\"#FF0000\">NO</font>"
