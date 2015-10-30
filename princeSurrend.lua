@@ -3,7 +3,7 @@ local new = {}
     new['surr_start_end_header'] = 0x00EA --
     new['surr_vote_header'] = 0x00DC --
     new['surr_vote_netid_pos'] = 12 --
-    new['surr_vote_val_pos'] = 6 --
+    new['surr_vote_val_pos'] = 7 --
 
 local decoded_table_4_new = { -- 5.21 surrender netids
     [0xAE] = 0x01,[0x2E] = 0x02,[0x0F] = 0x03,[0x6F] = 0x04,[0x6E] = 0x05,[0xEE] = 0x06,[0xCF] = 0x07,
