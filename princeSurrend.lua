@@ -1,7 +1,7 @@
 local voteVar = 0
 local new = {}
     new["version"] = "5.24"
-    new['surr_start_end_header'] = 0x0136 --
+    new['surr_start_end_header'] = 0x001C --
     new['surr_vote_header'] = 0x0067 --
     new['surr_vote_netid_pos'] = 19 --
     new['surr_vote_val_pos'] = 6 --
