@@ -5,7 +5,7 @@ local new = {
     ['surr_start_end_header'] = 0x00AB,
     ['surr_vote_header'] = 0x0087,
     ['surr_vote_netid_pos'] = 17,
-    ['surr_vote_val_pos'] = 7,
+    ['surr_vote_val_pos'] = 8,
 }
     
 local decoded_table_4_new = { -- 6.7 surrender netids
