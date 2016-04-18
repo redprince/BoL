@@ -4,7 +4,7 @@ local new = {
     ["version"] = "6.7",
     ['surr_start_end_header'] = 0x00AB,
     ['surr_vote_header'] = 0x0087,
-    ['surr_vote_netid_pos'] = 17,
+    ['surr_vote_netid_pos'] = 18,
     ['surr_vote_val_pos'] = 8,
 }
     
